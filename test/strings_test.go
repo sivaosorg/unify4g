@@ -348,3 +348,124 @@ func TestIndent(t *testing.T) {
 		}
 	}
 }
+
+func TestAbbreviate(t *testing.T) {
+	tests := []struct {
+		input    string
+		maxWidth int
+		expected string
+	}{
+		// Test case 1: No abbreviation needed, string is shorter than maxWidth
+		{
+			input:    "Hello",
+			maxWidth: 10,
+			expected: "Hello",
+		},
+		// Test case 2: Exact maxWidth, no abbreviation needed
+		{
+			input:    "Hello",
+			maxWidth: 5,
+			expected: "Hello",
+		},
+		// Test case 3: Abbreviation required, string is longer than maxWidth
+		{
+			input:    "This is a long string",
+			maxWidth: 10,
+			expected: "This is...",
+		},
+		// Test case 4: Abbreviation with a very small maxWidth
+		{
+			input:    "This is a long string",
+			maxWidth: 5,
+			expected: "Th...",
+		},
+		// Test case 5: Empty string
+		{
+			input:    "",
+			maxWidth: 5,
+			expected: "",
+		},
+		// Test case 6: String exactly at the boundary of abbreviation
+		{
+			input:    "This is long",
+			maxWidth: 12,
+			expected: "This is long",
+		},
+		// Test case 7: String is just at the limit (no abbreviation)
+		{
+			input:    "This is short",
+			maxWidth: 13,
+			expected: "This is short",
+		},
+		// Test case 8: String smaller than 4 and maxWidth smaller than 4
+		{
+			input:    "abc",
+			maxWidth: 3,
+			expected: "abc",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.input, func(t *testing.T) {
+			result := unify4go.Abbreviate(tt.input, tt.maxWidth)
+			if result != tt.expected {
+				t.Errorf("Abbreviate(%q, %d) = %q; expected %q", tt.input, tt.maxWidth, result, tt.expected)
+			}
+		})
+	}
+}
+
+func TestAppendIfMissing(t *testing.T) {
+	tests := []struct {
+		str      string
+		suffix   string
+		expected string
+		suffixes []string
+	}{
+		{"example", "txt", "exampletxt", nil},                      // Append missing suffix
+		{"example.txt", "txt", "example.txt", nil},                 // Suffix already exists
+		{"example", "txt", "example", []string{"txt", "jpg"}},      // Multiple suffixes, no append needed
+		{"image", "jpg", "imagejpg", nil},                          // Append suffix when missing
+		{"file.doc", "pdf", "file.docpdf", []string{"doc", "png"}}, // Append suffix, other suffix exists
+		{"report", "csv", "reportcsv", nil},                        // Basic append case
+		{"document", "csv", "document", []string{"csv", "doc"}},    // Multiple suffixes, already ends with one
+		{"hello", "o", "hello", nil},                               // Edge case: ends with same letter
+		{"", "suffix", "", nil},                                    // Empty string
+	}
+
+	for _, tt := range tests {
+		result := unify4go.AppendIfMissing(tt.str, tt.suffix, tt.suffixes...)
+		if result != tt.expected {
+			t.Errorf("AppendIfMissing(%q, %q) = %q; want %q", tt.str, tt.suffix, result, tt.expected)
+		}
+	}
+}
+
+func TestAppendIfMissingIgnoreCase(t *testing.T) {
+	tests := []struct {
+		str      string
+		suffix   string
+		expected string
+		suffixes []string
+	}{
+		{"example", "Txt", "exampleTxt", nil},                // Append case-insensitive suffix
+		{"example.txt", "txt", "example.txt", nil},           // Suffix already exists
+		{"example.txt", "TXT", "example.txt", nil},           // Case-insensitive check
+		{"photo", "jpg", "photoJpg", nil},                    // Append missing suffix with case-insensitive check
+		{"picture.PNG", "png", "picture.PNG", nil},           // Case-insensitive check with suffix present
+		{"report.PDF", "pdf", "report.PDF", nil},             // Case-insensitive check with suffix present
+		{"file", "txt", "filetxt", nil},                      // Append suffix when missing
+		{"presentation.PPT", "ppt", "presentation.PPT", nil}, // Case-insensitive suffix present
+		{"greeting", "ing", "greeting", nil},                 // Ends with case-insensitive suffix
+		{"hello", "lo", "hello", nil},                        // Ends with case-insensitive suffix
+		{"sample", "suffix", "samplesuffix", nil},            // Case-insensitive append
+		{"", "suffix", "", nil},                              // Empty string
+	}
+
+	for _, tt := range tests {
+		result := unify4go.AppendIfMissingIgnoreCase(tt.str, tt.suffix, tt.suffixes...)
+		if result != tt.expected {
+			t.Errorf("AppendIfMissingIgnoreCase(%q, %q) = %q; want %q", tt.str, tt.suffix, result, tt.expected)
+		}
+	}
+}
