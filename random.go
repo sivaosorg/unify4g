@@ -108,3 +108,98 @@ func NextUUID() string {
 	}
 	return uuid
 }
+
+// NextFloat64 returns the next random float64 value in the range [0.0, 1.0).
+//
+// This function uses the rand package to generate a random float64 value.
+// The generated value is uniformly distributed over the interval [0.0, 1.0).
+//
+// Returns:
+//   - A random float64 value between 0.0 and 1.0.
+func NextFloat64() float64 {
+	return rand.Float64()
+}
+
+// NextFloat64Bounded returns the next random float64 value bounded by the specified range.
+//
+// Parameters:
+//   - `start`: The lower bound of the random float64 value (inclusive).
+//   - `end`: The upper bound of the random float64 value (exclusive).
+//
+// Returns:
+//   - A random float64 value uniformly distributed between `start` and `end`.
+func NextFloat64Bounded(start float64, end float64) float64 {
+	return rand.Float64()*(end-start) + start
+}
+
+// NextFloat32 returns the next random float32 value in the range [0.0, 1.0).
+//
+// This function uses the rand package to generate a random float32 value.
+// The generated value is uniformly distributed over the interval [0.0, 1.0).
+//
+// Returns:
+//   - A random float32 value between 0.0 and 1.0.
+func NextFloat32() float32 {
+	return rand.Float32()
+}
+
+// NextFloat32Bounded returns the next random float32 value bounded by the specified range.
+//
+// Parameters:
+//   - `start`: The lower bound of the random float32 value (inclusive).
+//   - `end`: The upper bound of the random float32 value (exclusive).
+//
+// Returns:
+//   - A random float32 value uniformly distributed between `start` and `end`.
+func NextFloat32Bounded(start float32, end float32) float32 {
+	return rand.Float32()*(end-start) + start
+}
+
+// NextIntBounded returns the next random int value bounded by the specified range.
+//
+// Parameters:
+//   - `start`: The lower bound of the random int value (inclusive).
+//   - `end`: The upper bound of the random int value (exclusive).
+//
+// Returns:
+//   - A random int value uniformly distributed between `start` and `end`.
+func NextIntBounded(start int, end int) int {
+	return start + rand.Intn(end-start)
+}
+
+// NextIntUpperBounded returns the next random int value bounded by a maximum value.
+//
+// Parameters:
+//   - `end`: The exclusive upper bound for the random int value.
+//
+// Returns:
+//   - A random int value uniformly distributed in the range [0, end).
+func NextIntUpperBounded(end int) int {
+	return rand.Intn(end)
+}
+
+// NextBytes creates an array of random bytes with the specified length.
+//
+// Parameters:
+//   - `count`: The number of random bytes to generate.
+//
+// Returns:
+//   - A slice of random bytes with the specified length.
+func NextBytes(count int) []byte {
+	a := make([]byte, count)
+	for i := range a {
+		a[i] = (byte)(nextInt())
+	}
+	return a
+}
+
+// nextInt returns the next random int value.
+//
+// This helper function generates a random int value using the rand package.
+// It is called by NextBytes to populate the byte array with random values.
+//
+// Returns:
+//   - A random int value.
+func nextInt() int {
+	return rand.Int()
+}
