@@ -2459,6 +2459,127 @@ func PrependIfMissingIgnoreCase(str string, prefix string, prefixes ...string) s
 	return prependIfMissing(str, prefix, true, prefixes...)
 }
 
+// ContainsAllWords checks if the given string contains all specified words.
+//
+// This function verifies if the input string `str` includes all words
+// provided in the variadic parameter `words`. It uses a regular
+// expression to match whole words only (considering word boundaries).
+//
+// Parameters:
+//   - `str`: The input string to search within.
+//   - `words`: A variadic parameter containing words to check for in the input string.
+//
+// Returns:
+//   - `true` if the input string contains all specified words; otherwise, returns `false`.
+//   - Returns `false` if `str` is empty or if no words are provided.
+//
+// Example:
+//
+// str := "The quick brown fox"
+// words := []string{"quick", "fox"}
+// result := ContainsAllWords(str, words...) // result will be true
+func ContainsAllWords(str string, words ...string) bool {
+	if str == "" || len(words) == 0 {
+		return false
+	}
+	found := 0
+	for _, word := range words {
+		if regexp.MustCompile(`.*\b` + word + `\b.*`).MatchString(str) {
+			found++
+		}
+	}
+	return found == len(words)
+}
+
+// Initials extracts the initial letters from each word in the given string.
+//
+// This function returns the first letter of the string and the first letters
+// of all words following defined delimiters as a new string. The case of
+// the letters is not changed in the output.
+//
+// Parameters:
+//   - `str`: The input string from which to extract initials.
+//
+// Returns:
+//   - A string containing the initials of the words in the input string.
+//   - Returns an empty string if the input string is empty.
+//
+// Example:
+//
+// str := "Hello World"
+// result := Initials(str) // result will be "HW"
+func Initials(str string) string {
+	return InitialsDelimited(str, nil...)
+}
+
+// InitialsDelimited extracts the initial letters from each word in the given string,
+// considering specified delimiters.
+//
+// This function returns the first letter of the string and the first letters
+// of all words after the defined delimiters as a new string. The case of
+// the letters is not changed in the output.
+//
+// Parameters:
+//   - `str`: The input string from which to extract initials.
+//   - `delimiters`: A variadic parameter that specifies delimiters to consider
+//     when determining word boundaries. If none are provided, whitespace is used.
+//
+// Returns:
+//   - A string containing the initials of the words in the input string.
+//   - Returns an empty string if the input string is empty or if no delimiters
+//     are provided.
+//
+// Example:
+//
+// str := "Hello, World! How are you?"
+// delimiters := []string{",", "!", "?"}
+// result := InitialsDelimited(str, delimiters...) // result will be "HWH"
+func InitialsDelimited(str string, delimiters ...string) string {
+	if IsEmpty(str) || (delimiters != nil && len(delimiters) == 0) {
+		return str
+	}
+	strLen := len(str)
+	buff := make([]rune, strLen/2+1)
+	count := 0
+	lastWasGap := true
+	for _, ch := range str {
+		if isDelimiter(ch, delimiters...) {
+			lastWasGap = true
+		} else if lastWasGap {
+			buff[count] = ch
+			count++
+			lastWasGap = false
+		}
+	}
+	return string(buff[:count])
+}
+
+// isDelimiter checks if a character is a delimiter.
+//
+// This helper function determines whether a given character `c` is a
+// delimiter. If no delimiters are provided, it checks if the character
+// is whitespace. If delimiters are specified, it checks if the character
+// matches any of those delimiters.
+//
+// Parameters:
+//   - `c`: The character to check.
+//   - `delimiters`: A variadic parameter that specifies delimiters to check against.
+//
+// Returns:
+//   - `true` if the character is a delimiter; otherwise, returns `false`.
+func isDelimiter(c rune, delimiters ...string) bool {
+	if delimiters == nil {
+		return unicode.IsSpace(c)
+	}
+	cs := string(c)
+	for _, delimiter := range delimiters {
+		if cs == delimiter {
+			return true
+		}
+	}
+	return false
+}
+
 // prependIfMissing is an internal function that performs the logic of prepending a prefix to a string
 // if the string does not already start with the specified prefix or any of the additional prefixes,
 // with an option for case-insensitive comparison.
