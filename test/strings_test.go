@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/sivaosorg/unify4go"
+	"github.com/sivaosorg/unify4g"
 )
 
 type defaultTestStruct struct {
@@ -25,7 +25,7 @@ func TestIsEmpty(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := unify4go.IsEmpty(tt.input); got != tt.expected {
+			if got := unify4g.IsEmpty(tt.input); got != tt.expected {
 				t.Errorf("IsEmpty(%q) = %v; want %v", tt.input, got, tt.expected)
 			}
 		})
@@ -43,7 +43,7 @@ func TestIsNotEmpty(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := unify4go.IsNotEmpty(tt.input); got != tt.expected {
+			if got := unify4g.IsNotEmpty(tt.input); got != tt.expected {
 				t.Errorf("IsNotEmpty(%q) = %v; want %v", tt.input, got, tt.expected)
 			}
 		})
@@ -60,7 +60,7 @@ func TestFormatArg(t *testing.T) {
 		{"x\nz", "\"x\\nz\""},
 	}
 	for i, test := range tests {
-		result := unify4go.Quote(test.arg)
+		result := unify4g.Quote(test.arg)
 		if result != test.expected {
 			t.Errorf("Test %d: Arg(%s) returned %s. Expected %s.", i, test.arg, result, test.expected)
 		}
@@ -91,7 +91,7 @@ func TestTrimPrefixAll(t *testing.T) {
 		{"xxxxxa", "xx", "xa"},
 	}
 	for i, test := range tests {
-		result := unify4go.TrimPrefixAll(test.s, test.prefix)
+		result := unify4g.TrimPrefixAll(test.s, test.prefix)
 		if result != test.expected {
 			t.Errorf("Test %d: TrimPrefixAll(`%s`, `%s`) returned `%s`. Expected `%s`.", i, test.s, test.prefix, result, test.expected)
 		}
@@ -134,7 +134,7 @@ func TestTrimPrefixN(t *testing.T) {
 		{"xxxxxa", "xx", -1, "xa"},
 	}
 	for i, test := range tests {
-		result := unify4go.TrimPrefixN(test.s, test.prefix, test.n)
+		result := unify4g.TrimPrefixN(test.s, test.prefix, test.n)
 		if result != test.expected {
 			t.Errorf("Test %d: TrimPrefixAll(`%s`, `%s`, %d) returned `%s`. Expected `%s`.", i, test.s, test.prefix, test.n, result, test.expected)
 		}
@@ -165,7 +165,7 @@ func TestTrimSuffixAll(t *testing.T) {
 		{"axxxxx", "xx", "ax"},
 	}
 	for i, test := range tests {
-		result := unify4go.TrimSuffixAll(test.s, test.suffix)
+		result := unify4g.TrimSuffixAll(test.s, test.suffix)
 		if result != test.expected {
 			t.Errorf("Test %d: TrimSuffixAll(`%s`, `%s`) returned `%s`. Expected `%s`.", i, test.s, test.suffix, result, test.expected)
 		}
@@ -208,7 +208,7 @@ func TestTrimSuffixN(t *testing.T) {
 		{"axxxxx", "xx", -1, "ax"},
 	}
 	for i, test := range tests {
-		result := unify4go.TrimSuffixN(test.s, test.suffix, test.n)
+		result := unify4g.TrimSuffixN(test.s, test.suffix, test.n)
 		if result != test.expected {
 			t.Errorf("Test %d: TrimSuffixN(`%s`, `%s`, %d) returned `%s`. Expected `%s`.", i, test.s, test.suffix, test.n, result, test.expected)
 		}
@@ -261,7 +261,7 @@ func TestTrimSequenceAll(t *testing.T) {
 		{"xx", "xx", ""},
 	}
 	for i, test := range tests {
-		result := unify4go.TrimSequenceAll(test.s, test.sequence)
+		result := unify4g.TrimSequenceAll(test.s, test.sequence)
 		if result != test.expected {
 			t.Errorf("Test %d: TrimSequenceAll(`%s`, `%s`) returned `%s`. Expected `%s`.", i, test.s, test.sequence, result, test.expected)
 		}
@@ -281,7 +281,7 @@ func TestReplaceAllStrings(t *testing.T) {
 		{[]string{"in", "if"}, "i", "o", []string{"on", "of"}},
 	}
 	for i, test := range tests {
-		result := unify4go.ReplaceAllStrings(test.s, test.old, test.new)
+		result := unify4g.ReplaceAllStrings(test.s, test.old, test.new)
 		if !reflect.DeepEqual(result, test.expected) {
 			t.Errorf("Test %d: RangeReplaceAll(%v, `%s`, `%s`) returned %v. Expected %v.", i, test.s, test.old, test.new, result, test.expected)
 		}
@@ -297,7 +297,7 @@ func TestHash(t *testing.T) {
 	}
 	for _, tc := range cases {
 		t.Run(tc.summary, func(t *testing.T) {
-			r := unify4go.Hash(tc.input.(string))
+			r := unify4g.Hash(tc.input.(string))
 
 			if r != strings.ToLower(tc.expectedOutput.(string)) {
 				t.Errorf("Test has failed!\n\tInput: %s,\n\tExpected: %d, \n\tGot: %s", tc.input, tc.expectedOutput, r)
@@ -322,7 +322,7 @@ func TestOnlyDigits(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		result := unify4go.OnlyDigits(tt.input)
+		result := unify4g.OnlyDigits(tt.input)
 		if result != tt.expected {
 			t.Errorf("OnlyDigits(%q) = %q; expected %q", tt.input, result, tt.expected)
 		}
@@ -342,7 +342,7 @@ func TestIndent(t *testing.T) {
 		{"", "Lorem", "Lorem"},
 	}
 	for _, test := range tests {
-		output := unify4go.Indent(test.input, test.left)
+		output := unify4g.Indent(test.input, test.left)
 		if output != test.expected {
 			t.Errorf("OnlyDigits(%q) = %q; expected %q", test.input, output, test.expected)
 		}
@@ -407,7 +407,7 @@ func TestAbbreviate(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.input, func(t *testing.T) {
-			result := unify4go.Abbreviate(tt.input, tt.maxWidth)
+			result := unify4g.Abbreviate(tt.input, tt.maxWidth)
 			if result != tt.expected {
 				t.Errorf("Abbreviate(%q, %d) = %q; expected %q", tt.input, tt.maxWidth, result, tt.expected)
 			}
@@ -434,7 +434,7 @@ func TestAppendIfMissing(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		result := unify4go.AppendIfMissing(tt.str, tt.suffix, tt.suffixes...)
+		result := unify4g.AppendIfMissing(tt.str, tt.suffix, tt.suffixes...)
 		if result != tt.expected {
 			t.Errorf("AppendIfMissing(%q, %q) = %q; want %q", tt.str, tt.suffix, result, tt.expected)
 		}
@@ -463,7 +463,7 @@ func TestAppendIfMissingIgnoreCase(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		result := unify4go.AppendIfMissingIgnoreCase(tt.str, tt.suffix, tt.suffixes...)
+		result := unify4g.AppendIfMissingIgnoreCase(tt.str, tt.suffix, tt.suffixes...)
 		if result != tt.expected {
 			t.Errorf("AppendIfMissingIgnoreCase(%q, %q) = %q; want %q", tt.str, tt.suffix, result, tt.expected)
 		}

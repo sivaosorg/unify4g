@@ -1,4 +1,4 @@
-package unify4go
+package unify4g
 
 // Stack is a generic stack data structure that stores elements of type `T`.
 // It provides basic stack operations like push, pop, and peek.

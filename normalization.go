@@ -1,4 +1,4 @@
-package unify4go
+package unify4g
 
 // normalize_rune takes a rune as input and returns its normalized string representation.
 //

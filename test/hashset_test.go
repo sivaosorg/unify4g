@@ -3,11 +3,11 @@ package example_test
 import (
 	"testing"
 
-	"github.com/sivaosorg/unify4go"
+	"github.com/sivaosorg/unify4g"
 )
 
 func TestNewHashSet(t *testing.T) {
-	hashSet := unify4go.NewHashSet[int]()
+	hashSet := unify4g.NewHashSet[int]()
 	if hashSet == nil {
 		t.Errorf("Hashset is nil")
 		return
@@ -15,7 +15,7 @@ func TestNewHashSet(t *testing.T) {
 }
 
 func TestHashSet_Add(t *testing.T) {
-	hashSet := unify4go.NewHashSet[string]()
+	hashSet := unify4g.NewHashSet[string]()
 	hashSet.Add("test1")
 	hashSet.Add("test2")
 	hashSet.Add("test3")
@@ -27,7 +27,7 @@ func TestHashSet_Add(t *testing.T) {
 }
 
 func TestHashSet_Remove(t *testing.T) {
-	hashSet := unify4go.NewHashSet[string]()
+	hashSet := unify4g.NewHashSet[string]()
 	hashSet.Add("test1")
 	hashSet.Add("test2")
 	hashSet.Remove("test2")
@@ -43,7 +43,7 @@ func TestHashSet_Remove(t *testing.T) {
 }
 
 func TestHashSet_AddAll(t *testing.T) {
-	hashSet := unify4go.NewHashSet[string]()
+	hashSet := unify4g.NewHashSet[string]()
 	hashSet.AddAll("test1", "test2", "test3", "test4")
 
 	if hashSet.Size() != 4 {
@@ -52,7 +52,7 @@ func TestHashSet_AddAll(t *testing.T) {
 }
 
 func TestHashSet_RemoveAll(t *testing.T) {
-	hashSet := unify4go.NewHashSet[string]()
+	hashSet := unify4g.NewHashSet[string]()
 	hashSet.AddAll("test1", "test2", "test3", "test4")
 	hashSet.RemoveAll("test1", "test3")
 	hashSet.RemoveAll("test1", "test2", "test4")
@@ -63,7 +63,7 @@ func TestHashSet_RemoveAll(t *testing.T) {
 }
 
 func TestHashSet_Clear(t *testing.T) {
-	hashSet := unify4go.NewHashSet[string]()
+	hashSet := unify4g.NewHashSet[string]()
 	hashSet.AddAll("test1", "test2", "test3", "test4")
 	hashSet.Clear()
 
@@ -73,8 +73,8 @@ func TestHashSet_Clear(t *testing.T) {
 }
 
 func TestHashSet_IntersectionFirstSetBiggerSize(t *testing.T) {
-	hashSetA := unify4go.NewHashSet[int](1, 2, 3, 4)
-	hashSetB := unify4go.NewHashSet[int](2, 5)
+	hashSetA := unify4g.NewHashSet[int](1, 2, 3, 4)
+	hashSetB := unify4g.NewHashSet[int](2, 5)
 
 	NewHashSet := hashSetA.Intersection(hashSetB)
 
@@ -96,8 +96,8 @@ func TestHashSet_IntersectionFirstSetBiggerSize(t *testing.T) {
 }
 
 func TestHashSet_IntersectionFirstSetSmallerSize(t *testing.T) {
-	hashSetA := unify4go.NewHashSet[int](2, 5)
-	hashSetB := unify4go.NewHashSet[int](1, 2, 3, 4)
+	hashSetA := unify4g.NewHashSet[int](2, 5)
+	hashSetB := unify4g.NewHashSet[int](1, 2, 3, 4)
 
 	NewHashSet := hashSetA.Intersection(hashSetB)
 
@@ -119,8 +119,8 @@ func TestHashSet_IntersectionFirstSetSmallerSize(t *testing.T) {
 }
 
 func TestHashSet_Union(t *testing.T) {
-	hashSetA := unify4go.NewHashSet[int](1, 2, 4)
-	hashSetB := unify4go.NewHashSet[int](2, 3)
+	hashSetA := unify4g.NewHashSet[int](1, 2, 4)
+	hashSetB := unify4g.NewHashSet[int](2, 3)
 
 	NewHashSet := hashSetA.Union(hashSetB)
 
@@ -155,8 +155,8 @@ func TestHashSet_Union(t *testing.T) {
 }
 
 func TestHashSet_Difference(t *testing.T) {
-	hashSetA := unify4go.NewHashSet[int](1, 2, 4)
-	hashSetB := unify4go.NewHashSet[int](2, 3)
+	hashSetA := unify4g.NewHashSet[int](1, 2, 4)
+	hashSetB := unify4g.NewHashSet[int](2, 3)
 
 	NewHashSet := hashSetA.Difference(hashSetB)
 
@@ -182,7 +182,7 @@ func TestHashSet_Difference(t *testing.T) {
 }
 
 func TestHashSet_ToString(t *testing.T) {
-	hashSet := unify4go.NewHashSet[string]("a", "b")
+	hashSet := unify4g.NewHashSet[string]("a", "b")
 	expectedString1 := "a,b"
 	expectedString2 := "b,a"
 
@@ -194,7 +194,7 @@ func TestHashSet_ToString(t *testing.T) {
 }
 
 func TestHashSet_ToSlice(t *testing.T) {
-	hashSet := unify4go.NewHashSet[int](1, 2, 3)
+	hashSet := unify4g.NewHashSet[int](1, 2, 3)
 	slice := hashSet.Slice()
 
 	if len(slice) != hashSet.Size() {
@@ -203,7 +203,7 @@ func TestHashSet_ToSlice(t *testing.T) {
 }
 
 func BenchmarkHashSetAdd100(b *testing.B) {
-	hashSet := unify4go.NewHashSet[int]()
+	hashSet := unify4g.NewHashSet[int]()
 	b.StopTimer()
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -214,7 +214,7 @@ func BenchmarkHashSetAdd100(b *testing.B) {
 }
 
 func BenchmarkHashSetAdd10000(b *testing.B) {
-	hashSet := unify4go.NewHashSet[int]()
+	hashSet := unify4g.NewHashSet[int]()
 	b.StopTimer()
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -225,7 +225,7 @@ func BenchmarkHashSetAdd10000(b *testing.B) {
 }
 
 func BenchmarkHashSetAdd1000000(b *testing.B) {
-	hashSet := unify4go.NewHashSet[int]()
+	hashSet := unify4g.NewHashSet[int]()
 	b.StopTimer()
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -236,7 +236,7 @@ func BenchmarkHashSetAdd1000000(b *testing.B) {
 }
 
 func BenchmarkHashSetRemove100(b *testing.B) {
-	hashSet := unify4go.NewHashSet[int]()
+	hashSet := unify4g.NewHashSet[int]()
 
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
@@ -251,7 +251,7 @@ func BenchmarkHashSetRemove100(b *testing.B) {
 }
 
 func BenchmarkHashSetRemove10000(b *testing.B) {
-	hashSet := unify4go.NewHashSet[int]()
+	hashSet := unify4g.NewHashSet[int]()
 
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
@@ -266,7 +266,7 @@ func BenchmarkHashSetRemove10000(b *testing.B) {
 }
 
 func BenchmarkHashSetRemove1000000(b *testing.B) {
-	hashSet := unify4go.NewHashSet[int]()
+	hashSet := unify4g.NewHashSet[int]()
 
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
@@ -281,7 +281,7 @@ func BenchmarkHashSetRemove1000000(b *testing.B) {
 }
 
 func BenchmarkHashSetContains100(b *testing.B) {
-	hashSet := unify4go.NewHashSet[int]()
+	hashSet := unify4g.NewHashSet[int]()
 	for j := 0; j < 100; j++ {
 		hashSet.Add(j)
 	}
@@ -293,7 +293,7 @@ func BenchmarkHashSetContains100(b *testing.B) {
 }
 
 func BenchmarkHashSetContains10000(b *testing.B) {
-	hashSet := unify4go.NewHashSet[int]()
+	hashSet := unify4g.NewHashSet[int]()
 	for j := 0; j < 10000; j++ {
 		hashSet.Add(j)
 	}
@@ -305,7 +305,7 @@ func BenchmarkHashSetContains10000(b *testing.B) {
 }
 
 func BenchmarkHashSetContains1000000(b *testing.B) {
-	hashSet := unify4go.NewHashSet[int]()
+	hashSet := unify4g.NewHashSet[int]()
 	for j := 0; j < 1000000; j++ {
 		hashSet.Add(j)
 	}

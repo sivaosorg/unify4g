@@ -1,4 +1,4 @@
-package unify4go
+package unify4g
 
 import (
 	jsonI "github.com/json-iterator/go"

@@ -3,18 +3,18 @@ package example_test
 import (
 	"testing"
 
-	"github.com/sivaosorg/unify4go"
+	"github.com/sivaosorg/unify4g"
 )
 
 func TestNewStack(t *testing.T) {
-	stack := unify4go.NewStack[int]()
+	stack := unify4g.NewStack[int]()
 	if stack == nil {
 		t.Error("stack is nil")
 	}
 }
 
 func TestPush(t *testing.T) {
-	stack := unify4go.NewStack[int]()
+	stack := unify4g.NewStack[int]()
 	stack.Push(1)
 	stack.Push(2)
 	stack.Push(3)
@@ -25,7 +25,7 @@ func TestPush(t *testing.T) {
 }
 
 func TestPop(t *testing.T) {
-	stack := unify4go.NewStack[int]()
+	stack := unify4g.NewStack[int]()
 	stack.Push(1)
 
 	if stack.Pop() != 1 {
@@ -38,7 +38,7 @@ func TestPop(t *testing.T) {
 }
 
 func TestPeek(t *testing.T) {
-	stack := unify4go.NewStack[int]()
+	stack := unify4g.NewStack[int]()
 	stack.Push(1)
 	stack.Push(2)
 	stack.Push(3)
@@ -53,7 +53,7 @@ func TestPeek(t *testing.T) {
 }
 
 func TestStackClear(t *testing.T) {
-	stack := unify4go.NewStack[int]()
+	stack := unify4g.NewStack[int]()
 	stack.Push(1)
 	stack.Push(2)
 	stack.Push(3)
@@ -66,7 +66,7 @@ func TestStackClear(t *testing.T) {
 }
 
 func BenchmarkStackPush100(b *testing.B) {
-	stack := unify4go.NewStack[int]()
+	stack := unify4g.NewStack[int]()
 	b.StopTimer()
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -77,7 +77,7 @@ func BenchmarkStackPush100(b *testing.B) {
 }
 
 func BenchmarkStackPush10000(b *testing.B) {
-	stack := unify4go.NewStack[int]()
+	stack := unify4g.NewStack[int]()
 	b.StopTimer()
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -88,7 +88,7 @@ func BenchmarkStackPush10000(b *testing.B) {
 }
 
 func BenchmarkStackPush1000000(b *testing.B) {
-	stack := unify4go.NewStack[int]()
+	stack := unify4g.NewStack[int]()
 	b.StopTimer()
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -99,7 +99,7 @@ func BenchmarkStackPush1000000(b *testing.B) {
 }
 
 func BenchmarkStackPop100(b *testing.B) {
-	stack := unify4go.NewStack[int]()
+	stack := unify4g.NewStack[int]()
 
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
@@ -114,7 +114,7 @@ func BenchmarkStackPop100(b *testing.B) {
 }
 
 func BenchmarkStackPop10000(b *testing.B) {
-	stack := unify4go.NewStack[int]()
+	stack := unify4g.NewStack[int]()
 
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
@@ -129,7 +129,7 @@ func BenchmarkStackPop10000(b *testing.B) {
 }
 
 func BenchmarkStackPop1000000(b *testing.B) {
-	stack := unify4go.NewStack[int]()
+	stack := unify4g.NewStack[int]()
 
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()

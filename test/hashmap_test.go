@@ -3,11 +3,11 @@ package example_test
 import (
 	"testing"
 
-	"github.com/sivaosorg/unify4go"
+	"github.com/sivaosorg/unify4g"
 )
 
 func TestNewHashMap(t *testing.T) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 	if hashMap == nil {
 		t.Errorf("Hashmap is nil")
 		return
@@ -15,7 +15,7 @@ func TestNewHashMap(t *testing.T) {
 }
 
 func TestPut(t *testing.T) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 	if hashMap == nil {
 		t.Errorf("Hashmap is nil")
 		return
@@ -38,7 +38,7 @@ func TestPut(t *testing.T) {
 }
 
 func TestGet(t *testing.T) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 	if hashMap == nil {
 		t.Errorf("Hashmap is nil")
 		return
@@ -57,7 +57,7 @@ func TestGet(t *testing.T) {
 }
 
 func TestRemove(t *testing.T) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 	if hashMap == nil {
 		t.Errorf("Hashmap is nil")
 		return
@@ -78,7 +78,7 @@ func TestRemove(t *testing.T) {
 }
 
 func TestClear(t *testing.T) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 	if hashMap == nil {
 		t.Errorf("Hashmap is nil")
 		return
@@ -95,7 +95,7 @@ func TestClear(t *testing.T) {
 }
 
 func TestKeySet(t *testing.T) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 	if hashMap == nil {
 		t.Errorf("Hashmap is nil")
 		return
@@ -112,7 +112,7 @@ func TestKeySet(t *testing.T) {
 }
 
 func BenchmarkHashMapPut100(b *testing.B) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 	b.StopTimer()
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -123,7 +123,7 @@ func BenchmarkHashMapPut100(b *testing.B) {
 }
 
 func BenchmarkHashMapPut10000(b *testing.B) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 	b.StopTimer()
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -134,7 +134,7 @@ func BenchmarkHashMapPut10000(b *testing.B) {
 }
 
 func BenchmarkHashMapPut1000000(b *testing.B) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 	b.StopTimer()
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -145,7 +145,7 @@ func BenchmarkHashMapPut1000000(b *testing.B) {
 }
 
 func BenchmarkHashMapRemove100(b *testing.B) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
@@ -160,7 +160,7 @@ func BenchmarkHashMapRemove100(b *testing.B) {
 }
 
 func BenchmarkHashMapRemove10000(b *testing.B) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
@@ -175,7 +175,7 @@ func BenchmarkHashMapRemove10000(b *testing.B) {
 }
 
 func BenchmarkHashMapRemove1000000(b *testing.B) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
@@ -190,7 +190,7 @@ func BenchmarkHashMapRemove1000000(b *testing.B) {
 }
 
 func BenchmarkHashMapContains100(b *testing.B) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 	for j := 0; j < 100; j++ {
 		hashMap.Put(j, "test")
 	}
@@ -202,7 +202,7 @@ func BenchmarkHashMapContains100(b *testing.B) {
 }
 
 func BenchmarkHashMapContains10000(b *testing.B) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 	for j := 0; j < 10000; j++ {
 		hashMap.Put(j, "test")
 	}
@@ -214,7 +214,7 @@ func BenchmarkHashMapContains10000(b *testing.B) {
 }
 
 func BenchmarkHashMapContains1000000(b *testing.B) {
-	hashMap := unify4go.NewHashMap[int, string]()
+	hashMap := unify4g.NewHashMap[int, string]()
 	for j := 0; j < 1000000; j++ {
 		hashMap.Put(j, "test")
 	}
