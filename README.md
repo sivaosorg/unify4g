@@ -19,12 +19,12 @@ To install, you can use the following commands based on your preference:
 - For a specific version:
 
   ```bash
-  go get github.com/sivaosorg/unify4g.git@v1.2.0
+  go get github.com/sivaosorg/unify4g@v0.0.1
   ```
 
 - For the latest version:
   ```bash
-  go get -u github.com/sivaosorg/unify4g.git@latest
+  go get -u github.com/sivaosorg/unify4g@latest
   ```
 
 ### Contributing
