@@ -372,7 +372,7 @@ func TrimWhitespace(s string) string {
 
 // CleanSpaces removes leading and trailing whitespace characters from a given string and replaces sequences of whitespace characters with a single space.
 // It first checks if the input string is empty or consists solely of whitespace characters. If so, it returns an empty string.
-// Otherwise, it calls RemoveDuplicateWhitespace to replace all sequences of whitespace characters with a single space, effectively removing duplicates.
+// Otherwise, it calls TrimWhitespace to replace all sequences of whitespace characters with a single space, effectively removing duplicates.
 // Finally, it trims the leading and trailing whitespace characters from the resulting string using strings.TrimSpace and returns the cleaned string.
 func CleanSpaces(s string) string {
 	if IsEmpty(s) {
