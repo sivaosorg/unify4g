@@ -13,14 +13,15 @@ var _json = jsonI.ConfigCompatibleWithStandardLibrary
 // during marshalling, it returns the error.
 //
 // Parameters:
-// - `v`: The Go value to be marshalled into JSON.
+//   - `v`: The Go value to be marshalled into JSON.
 //
 // Returns:
-// - A byte slice containing the JSON representation of the input value.
-// - An error if the marshalling fails.
+//   - A byte slice containing the JSON representation of the input value.
+//   - An error if the marshalling fails.
 //
 // Example:
-// jsonData, err := Marshal(myStruct)
+//
+//	jsonData, err := Marshal(myStruct)
 func Marshal(v interface{}) ([]byte, error) {
 	return _json.Marshal(v)
 }
@@ -32,16 +33,17 @@ func Marshal(v interface{}) ([]byte, error) {
 // It returns the resulting JSON byte slice or an error if marshalling fails.
 //
 // Parameters:
-// - `v`: The Go value to be marshalled into JSON.
-// - `prefix`: A string that will be prefixed to each line of the output JSON.
-// - `indent`: A string used for indentation (typically a series of spaces or a tab).
+//   - `v`: The Go value to be marshalled into JSON.
+//   - `prefix`: A string that will be prefixed to each line of the output JSON.
+//   - `indent`: A string used for indentation (typically a series of spaces or a tab).
 //
 // Returns:
-// - A byte slice containing the formatted JSON representation of the input value.
-// - An error if the marshalling fails.
+//   - A byte slice containing the formatted JSON representation of the input value.
+//   - An error if the marshalling fails.
 //
 // Example:
-// jsonIndented, err := MarshalIndent(myStruct, "", "    ")
+//
+//	jsonIndented, err := MarshalIndent(myStruct, "", "    ")
 func MarshalIndent(v interface{}, prefix, indent string) ([]byte, error) {
 	return _json.MarshalIndent(v, prefix, indent)
 }
@@ -53,14 +55,15 @@ func MarshalIndent(v interface{}, prefix, indent string) ([]byte, error) {
 // JSON string. If an error occurs during the process, it returns an error.
 //
 // Parameters:
-// - `v`: The Go value to be marshalled into JSON.
+//   - `v`: The Go value to be marshalled into JSON.
 //
 // Returns:
-// - A string containing the JSON representation of the input value.
-// - An error if the marshalling fails.
+//   - A string containing the JSON representation of the input value.
+//   - An error if the marshalling fails.
 //
 // Example:
-// jsonString, err := MarshalToString(myStruct)
+//
+//	jsonString, err := MarshalToString(myStruct)
 func MarshalToString(v interface{}) (string, error) {
 	return _json.MarshalToString(v)
 }
@@ -72,14 +75,15 @@ func MarshalToString(v interface{}) (string, error) {
 // is successful, it populates the value `v`. If an error occurs, it returns the error.
 //
 // Parameters:
-// - `data`: A byte slice containing JSON data to be unmarshalled.
-// - `v`: A pointer to the Go value where the unmarshalled data will be stored.
+//   - `data`: A byte slice containing JSON data to be unmarshalled.
+//   - `v`: A pointer to the Go value where the unmarshalled data will be stored.
 //
 // Returns:
-// - An error if the unmarshalling fails.
+//   - An error if the unmarshalling fails.
 //
 // Example:
-// err := Unmarshal(jsonData, &myStruct)
+//
+//	err := Unmarshal(jsonData, &myStruct)
 func Unmarshal(data []byte, v interface{}) error {
 	return _json.Unmarshal(data, v)
 }
@@ -91,14 +95,15 @@ func Unmarshal(data []byte, v interface{}) error {
 // successful, it populates the value `v`. If an error occurs, it returns the error.
 //
 // Parameters:
-// - `str`: A string containing JSON data to be unmarshalled.
-// - `v`: A pointer to the Go value where the unmarshalled data will be stored.
+//   - `str`: A string containing JSON data to be unmarshalled.
+//   - `v`: A pointer to the Go value where the unmarshalled data will be stored.
 //
 // Returns:
-// - An error if the unmarshalling fails.
+//   - An error if the unmarshalling fails.
 //
 // Example:
-// err := UnmarshalFromString(jsonString, &myStruct)
+//
+//	err := UnmarshalFromString(jsonString, &myStruct)
 func UnmarshalFromString(str string, v interface{}) error {
 	return _json.UnmarshalFromString(str, v)
 }
@@ -110,13 +115,14 @@ func UnmarshalFromString(str string, v interface{}) error {
 // MarshalToString function. If an error occurs during marshalling, it returns an empty string.
 //
 // Parameters:
-// - `data`: The Go value to be converted to JSON, or a string to be returned directly.
+//   - `data`: The Go value to be converted to JSON, or a string to be returned directly.
 //
 // Returns:
-// - A string containing the JSON representation of the input value, or an empty string if an error occurs.
+//   - A string containing the JSON representation of the input value, or an empty string if an error occurs.
 //
 // Example:
-// jsonStr := Json(myStruct)
+//
+//	jsonStr := Json(myStruct)
 func Json(data interface{}) string {
 	s, ok := data.(string)
 	if ok {
@@ -136,13 +142,14 @@ func Json(data interface{}) string {
 // the MarshalIndent function. If an error occurs during marshalling, it returns an empty string.
 //
 // Parameters:
-// - `data`: The Go value to be converted to pretty-printed JSON, or a string to be returned directly.
+//   - `data`: The Go value to be converted to pretty-printed JSON, or a string to be returned directly.
 //
 // Returns:
-// - A string containing the pretty-printed JSON representation of the input value, or an empty string if an error occurs.
+//   - A string containing the pretty-printed JSON representation of the input value, or an empty string if an error occurs.
 //
 // Example:
-// jsonPrettyStr := JsonPretty(myStruct)
+//
+//	jsonPrettyStr := JsonPretty(myStruct)
 func JsonPretty(data interface{}) string {
 	s, ok := data.(string)
 	if ok {

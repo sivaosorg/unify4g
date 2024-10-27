@@ -6,16 +6,16 @@ package unify4g
 // more common ASCII equivalents. The specific transformations are defined in a switch statement that
 // maps each rune to its normalized string value. This includes:
 //
-// - Ligatures (e.g., 'Æ' to "AE", 'Œ' to "OE")
-// - Special characters (e.g., 'ß' to "ss")
-// - Accented characters (e.g., 'é' to "e", 'ç' to "c")
-// - Various other characters with diacritics are converted to their closest ASCII equivalent.
+//   - Ligatures (e.g., 'Æ' to "AE", 'Œ' to "OE")
+//   - Special characters (e.g., 'ß' to "ss")
+//   - Accented characters (e.g., 'é' to "e", 'ç' to "c")
+//   - Various other characters with diacritics are converted to their closest ASCII equivalent.
 //
 // If the input rune does not match any of the defined cases, the function returns the rune as a string,
 // preserving its original representation.
 //
 // Parameters:
-// - `r`: A rune representing a Unicode character that may need normalization.
+//   - `r`: A rune representing a Unicode character that may need normalization.
 //
 // Returns:
 //   - A string that represents the normalized form of the input rune. This string is typically ASCII,
@@ -23,16 +23,16 @@ package unify4g
 //
 // Example:
 //
-// normalized := normalize_rune('É')
-// fmt.Println(normalized) // Output: "E"
+//	normalized := normalize_rune('É')
+//	fmt.Println(normalized) // Output: "E"
 //
 // Notes:
 //   - This function is particularly useful for text processing, sanitization, or when preparing data
 //     for systems that require ASCII-compatible strings.
 //
 // Replacements are taken from
-// - https://github.com/sindresorhus/slugify/blob/master/replacements.js
-// - https://github.com/cocur/slugify/tree/master/Resources/rules
+//   - https://github.com/sindresorhus/slugify/blob/master/replacements.js
+//   - https://github.com/cocur/slugify/tree/master/Resources/rules
 func normalize_rune(r rune) string {
 	switch r {
 	case 'Ə':

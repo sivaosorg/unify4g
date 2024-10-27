@@ -18,17 +18,18 @@ import (
 // and the function returns true. Otherwise, it returns false.
 //
 // Parameters:
-// - `s`: A string that needs to be checked for emptiness.
+//   - `s`: A string that needs to be checked for emptiness.
 //
 // Returns:
-// - A boolean value:
-//   - true if the string is empty or contains only whitespace characters;
-//   - false if the string contains any non-whitespace characters.
+//
+//	A boolean value:
+//	 - true if the string is empty or contains only whitespace characters;
+//	 - false if the string contains any non-whitespace characters.
 //
 // Example:
 //
-// result := IsEmpty("   ") // result will be true
-// result = IsEmpty("Hello") // result will be false
+//	result := IsEmpty("   ") // result will be true
+//	result = IsEmpty("Hello") // result will be false
 func IsEmpty(s string) bool {
 	trimmed := strings.TrimSpace(s)
 	return len(trimmed) == 0
@@ -51,8 +52,7 @@ func IsEmpty(s string) bool {
 //
 // Example:
 //
-// result := IsAnyEmpty("hello", "", "world")
-// // result will be true because one of the strings is empty.
+//	result := IsAnyEmpty("hello", "", "world") // result will be true because one of the strings is empty.
 //
 // Notes:
 //   - The function utilizes the IsEmpty helper function to determine if a string
@@ -74,17 +74,18 @@ func IsAnyEmpty(strings ...string) bool {
 // and vice versa.
 //
 // Parameters:
-// - `s`: A string that needs to be checked for non-emptiness.
+//   - `s`: A string that needs to be checked for non-emptiness.
 //
 // Returns:
-// - A boolean value:
-//   - true if the string contains at least one non-whitespace character;
-//   - false if the string is empty or contains only whitespace characters.
+//
+//		 A boolean value:
+//	  - true if the string contains at least one non-whitespace character;
+//	  - false if the string is empty or contains only whitespace characters.
 //
 // Example:
 //
-// result := IsNotEmpty("Hello") // result will be true
-// result = IsNotEmpty("   ") // result will be false
+//	result := IsNotEmpty("Hello") // result will be true
+//	result = IsNotEmpty("   ") // result will be false
 func IsNotEmpty(s string) bool {
 	return !IsEmpty(s)
 }
@@ -106,11 +107,8 @@ func IsNotEmpty(s string) bool {
 //
 // Example:
 //
-// result := IsNoneEmpty("hello", "world", "!")
-// // result will be true because all strings are non-empty.
-//
-// result2 := IsNoneEmpty("hello", "", "world")
-// // result2 will be false because one of the strings is empty.
+//	result := IsNoneEmpty("hello", "world", "!") // result will be true because all strings are non-empty.
+//	result2 := IsNoneEmpty("hello", "", "world") // result2 will be false because one of the strings is empty.
 //
 // Notes:
 //   - The function utilizes the IsEmpty helper function to determine if a string
@@ -145,14 +143,9 @@ func IsNoneEmpty(strings ...string) bool {
 //
 // Example:
 //
-// result1 := IsBlank("")
-// // result1 will be true because the string is empty.
-//
-// result2 := IsBlank("   ")
-// // result2 will be true because the string contains only spaces.
-//
-// result3 := IsBlank("Hello")
-// // result3 will be false because the string contains non-whitespace characters.
+//	result1 := IsBlank("") // result1 will be true because the string is empty.
+//	result2 := IsBlank("   ") // result2 will be true because the string contains only spaces.
+//	result3 := IsBlank("Hello") // result3 will be false because the string contains non-whitespace characters.
 //
 // Notes:
 //   - The function uses a regular expression to match strings that consist entirely
@@ -185,14 +178,9 @@ func IsBlank(s string) bool {
 //
 // Example:
 //
-// result1 := IsNotBlank("Hello")
-// // result1 will be true because the string contains non-whitespace characters.
-//
-// result2 := IsNotBlank("   ")
-// // result2 will be false because the string contains only spaces.
-//
-// result3 := IsNotBlank("")
-// // result3 will be false because the string is empty.
+//	result1 := IsNotBlank("Hello") // result1 will be true because the string contains non-whitespace characters.
+//	result2 := IsNotBlank("   ") // result2 will be false because the string contains only spaces.
+//	result3 := IsNotBlank("") // result3 will be false because the string is empty.
 //
 // Notes:
 //   - This function provides a convenient way to check for meaningful content
@@ -217,11 +205,8 @@ func IsNotBlank(s string) bool {
 //
 // Example:
 //
-// result1 := IsAnyBlank("Hello", "World", " ")
-// // result1 will be true because the third string is blank (contains only a space).
-//
-// result2 := IsAnyBlank("Hello", "World")
-// // result2 will be false because both strings are not blank.
+//	result1 := IsAnyBlank("Hello", "World", " ") // result1 will be true because the third string is blank (contains only a space).
+//	result2 := IsAnyBlank("Hello", "World") // result2 will be false because both strings are not blank.
 //
 // Notes:
 //   - This function is useful for validating input or ensuring that required fields
@@ -250,11 +235,8 @@ func IsAnyBlank(strings ...string) bool {
 //
 // Example:
 //
-// result1 := IsNoneBlank("Hello", "World", " ")
-// // result1 will be false because the third string is blank (contains only a space).
-//
-// result2 := IsNoneBlank("Hello", "World")
-// // result2 will be true because both strings are non-blank.
+//	result1 := IsNoneBlank("Hello", "World", " ") // result1 will be false because the third string is blank (contains only a space).
+//	result2 := IsNoneBlank("Hello", "World") // result2 will be true because both strings are non-blank.
 //
 // Notes:
 //   - This function is useful for validating input or ensuring that all required fields
@@ -283,11 +265,8 @@ func IsNoneBlank(strings ...string) bool {
 //
 // Example:
 //
-// result1 := IsNumeric("12345")
-// // result1 will be true because the string contains only digits.
-//
-// result2 := IsNumeric("123A45")
-// // result2 will be false because the string contains a non-digit character ('A').
+//	result1 := IsNumeric("12345") // result1 will be true because the string contains only digits.
+//	result2 := IsNumeric("123A45") // result2 will be false because the string contains a non-digit character ('A').
 //
 // Notes:
 //   - This function is useful for validating numeric input, such as in forms or parsing
@@ -317,11 +296,8 @@ func IsNumeric(str string) bool {
 //
 // Example:
 //
-// result1 := IsNumericSpace("123 456")
-// // result1 will be true because the string contains only digits and a space.
-//
-// result2 := IsNumericSpace("123A456")
-// // result2 will be false because the string contains a non-numeric character ('A').
+//	result1 := IsNumericSpace("123 456") // result1 will be true because the string contains only digits and a space.
+//	result2 := IsNumericSpace("123A456") // result2 will be false because the string contains a non-numeric character ('A').
 //
 // Notes:
 //   - This function is useful for validating input that should be a number but may also include
@@ -351,11 +327,8 @@ func IsNumericSpace(str string) bool {
 //
 // Example:
 //
-// result1 := IsWhitespace("    ")
-// // result1 will be true because the string contains only spaces.
-//
-// result2 := IsWhitespace("Hello")
-// // result2 will be false because the string contains non-whitespace characters.
+//	result1 := IsWhitespace("    ") // result1 will be true because the string contains only spaces.
+//	result2 := IsWhitespace("Hello") // result2 will be false because the string contains non-whitespace characters.
 //
 // Notes:
 //   - This function is useful for determining if a string is blank in terms of visible content,
@@ -387,8 +360,7 @@ func IsWhitespace(str string) bool {
 //
 // Example:
 //
-// result := TrimWhitespace("This   is  an example.\n\nThis is another line.")
-// // result will be "This is an example. This is another line."
+//	result := TrimWhitespace("This   is  an example.\n\nThis is another line.") // result will be "This is an example. This is another line."
 func TrimWhitespace(s string) string {
 	if IsEmpty(s) {
 		return ""
@@ -419,7 +391,7 @@ func CleanSpaces(s string) string {
 // making it clear where the string begins and ends.
 //
 // Parameters:
-// - `arg`: The input string to be formatted.
+//   - `arg`: The input string to be formatted.
 //
 // Returns:
 //   - A string that represents the input `arg` as a quoted string with special characters
@@ -427,8 +399,7 @@ func CleanSpaces(s string) string {
 //
 // Example:
 //
-// formatted := Quote("Hello, world!\nNew line here.")
-// // formatted will be "\"Hello, world!\\nNew line here.\""
+//	formatted := Quote("Hello, world!\nNew line here.") // formatted will be "\"Hello, world!\\nNew line here.\""
 func Quote(arg string) string {
 	return fmt.Sprintf("%#q", arg)
 }
@@ -505,9 +476,9 @@ func TrimSequenceAll(s string, sequence string) string {
 // string from the input slice. The original slice remains unchanged.
 //
 // Parameters:
-// - `ss`: A slice of strings in which the replacements will be made.
-// - `old`: The substring to be replaced.
-// - `new`: The substring to replace the old substring with.
+//   - `ss`: A slice of strings in which the replacements will be made.
+//   - `old`: The substring to be replaced.
+//   - `new`: The substring to replace the old substring with.
 //
 // Returns:
 //   - A new slice of strings with all occurrences of `old` replaced by `new` in each string
@@ -515,9 +486,8 @@ func TrimSequenceAll(s string, sequence string) string {
 //
 // Example:
 //
-// input := []string{"hello world", "world peace", "goodbye world"}
-// output := ReplaceAllStrings(input, "world", "universe")
-// // output will be []string{"hello universe", "universe peace", "goodbye universe"}
+//	input := []string{"hello world", "world peace", "goodbye world"}
+//	output := ReplaceAllStrings(input, "world", "universe") // output will be []string{"hello universe", "universe peace", "goodbye universe"}
 func ReplaceAllStrings(ss []string, old string, new string) []string {
 	values := make([]string, len(ss))
 	for i, s := range ss {
@@ -538,8 +508,8 @@ func Slash(elems ...string) string {
 // memory allocation based on expected lengths.
 //
 // Parameters:
-// - `elems`: A slice of strings to be concatenated.
-// - `separator`: A string used to separate the elements in the final concatenated string.
+//   - `elems`: A slice of strings to be concatenated.
+//   - `separator`: A string used to separate the elements in the final concatenated string.
 //
 // Returns:
 //   - A single string resulting from the concatenation of the input strings, with the specified
@@ -557,10 +527,9 @@ func Slash(elems ...string) string {
 //
 // Example:
 //
-// elems := []string{"apple", "banana", "cherry"}
-// separator := ", "
-// result := JoinUnary(elems, separator)
-// // result will be "apple, banana, cherry"
+//	elems := []string{"apple", "banana", "cherry"}
+//	separator := ", "
+//	result := JoinUnary(elems, separator) // result will be "apple, banana, cherry"
 func JoinUnary(elems []string, separator string) string {
 	if len(elems) == 0 {
 		return ""
@@ -592,7 +561,7 @@ func JoinUnary(elems []string, separator string) string {
 // ensuring that each character is reversed without corrupting the character encoding.
 //
 // Parameters:
-// - `s`: A string to be reversed.
+//   - `s`: A string to be reversed.
 //
 // Returns:
 //   - A new string that contains the characters of the input string in reverse order.
@@ -610,9 +579,8 @@ func JoinUnary(elems []string, separator string) string {
 //
 // Example:
 //
-// original := "hello"
-// reversed := Reverse(original)
-// // reversed will be "olleh"
+//	original := "hello"
+//	reversed := Reverse(original) // reversed will be "olleh"
 func Reverse(s string) string {
 	if utf8.RuneCountInString(s) < 2 {
 		return s
@@ -638,7 +606,7 @@ func Reverse(s string) string {
 //  5. The hash value is then formatted as a hexadecimal string using fmt.Sprintf and returned.
 //
 // Parameters:
-// - `s`: The input string to be hashed.
+//   - `s`: The input string to be hashed.
 //
 // Returns:
 //   - A string representing the SHA256 hash of the input string in hexadecimal format.
@@ -646,9 +614,8 @@ func Reverse(s string) string {
 //
 // Example:
 //
-// input := "hello"
-// hashValue := Hash(input)
-// // hashValue will contain the SHA256 hash of "hello" in hexadecimal format.
+//	input := "hello"
+//	hashValue := Hash(input) // hashValue will contain the SHA256 hash of "hello" in hexadecimal format.
 //
 // Notes:
 //   - This function is suitable for generating hash values for strings that can be used for comparisons,
@@ -717,25 +684,27 @@ func OnlyDigits(sequence string) string {
 // Empty lines are also indented.
 //
 // Parameters:
-// - `s`: The input string whose lines will be indented. It may contain multiple lines separated by newline characters (`\n`).
-// - `left`: The string that will be used as the indentation prefix. This string is prepended to every line of `s`, including empty lines.
+//   - `s`: The input string whose lines will be indented. It may contain multiple lines separated by newline characters (`\n`).
+//   - `left`: The string that will be used as the indentation prefix. This string is prepended to every line of `s`, including empty lines.
 //
 // Behavior:
-// - The function works by replacing each newline character (`\n`) in `s` with a newline followed by the indentation string `left`.
-// - It also adds `left` to the beginning of the string, ensuring the first line is indented.
-// - Empty lines, if present, are preserved and indented like non-empty lines.
+//   - The function works by replacing each newline character (`\n`) in `s` with a newline followed by the indentation string `left`.
+//   - It also adds `left` to the beginning of the string, ensuring the first line is indented.
+//   - Empty lines, if present, are preserved and indented like non-empty lines.
 //
 // Returns:
-// - A new string where every line of the input `s` has been indented by the string `left`.
+//   - A new string where every line of the input `s` has been indented by the string `left`.
 //
 // Example:
 //
 // Input:
-// s = "Hello\nWorld\n\nThis is a test"
-// left = ">>> "
+//
+//	s = "Hello\nWorld\n\nThis is a test"
+//	left = ">>> "
 //
 // Output:
-// ">>> Hello\n>>> World\n>>> \n>>> This is a test"
+//
+//	">>> Hello\n>>> World\n>>> \n>>> This is a test"
 //
 // In this example, each line of the input, including the empty line, is prefixed with ">>> ".
 func Indent(s string, left string) string {
@@ -751,7 +720,7 @@ func Indent(s string, left string) string {
 // string concatenation.
 //
 // Parameters:
-// - `s`: The input string from which accents and diacritics are to be removed.
+//   - `s`: The input string from which accents and diacritics are to be removed.
 //
 // Returns:
 //   - A new string that contains the same characters as the input string,
@@ -760,9 +729,8 @@ func Indent(s string, left string) string {
 //
 // Example:
 //
-// input := "Café naïve"
-// output := RemoveAccents(input)
-// // output will be "Cafe naive"
+//	input := "Café naïve"
+//	output := RemoveAccents(input) // output will be "Cafe naive"
 //
 // Notes:
 //   - This function is useful for normalizing strings for comparison,
@@ -862,7 +830,7 @@ func SlugifySpecial(str string, delimiter string) string {
 // snake_case format.
 //
 // Parameters:
-// - `s`: The input string to be converted to snake_case.
+//   - `s`: The input string to be converted to snake_case.
 //
 // Returns:
 //   - A new string formatted in snake_case. If the input string is empty or
@@ -870,9 +838,8 @@ func SlugifySpecial(str string, delimiter string) string {
 //
 // Example:
 //
-// input := "Hello World"
-// output := ToSnakeCase(input)
-// // output will be "hello_world"
+//	input := "Hello World"
+//	output := ToSnakeCase(input) // output will be "hello_world"
 //
 // Notes:
 //   - This function is useful for generating variable names, file names,
@@ -893,7 +860,7 @@ func ToSnakeCase(s string) string {
 // of the string remains unchanged unless it follows a space.
 //
 // Parameters:
-// - `s`: The input string to be converted to CamelCase.
+//   - `s`: The input string to be converted to CamelCase.
 //
 // Returns:
 //   - A new string formatted in CamelCase. If the input string has fewer than
@@ -902,9 +869,8 @@ func ToSnakeCase(s string) string {
 //
 // Example:
 //
-// input := "hello world"
-// output := ToCamelCase(input)
-// // output will be "HelloWorld"
+//	input := "hello world"
+//	output := ToCamelCase(input) // output will be "HelloWorld"
 //
 // Notes:
 //   - This function is useful for generating variable names or identifiers that
@@ -946,7 +912,7 @@ func ToCamelCase(s string) string {
 // the original string.
 //
 // Parameters:
-// - `s`: The input CamelCase string to be split into words.
+//   - `s`: The input CamelCase string to be split into words.
 //
 // Returns:
 //   - A slice of strings containing the individual words extracted from the
@@ -954,9 +920,8 @@ func ToCamelCase(s string) string {
 //
 // Example:
 //
-// input := "CamelCaseString123"
-// output := SplitCamelCase(input)
-// // output will be []string{"Camel", "Case", "String", "123"}
+//	input := "CamelCaseString123"
+//	output := SplitCamelCase(input) // output will be []string{"Camel", "Case", "String", "123"}
 //
 // Notes:
 //   - This function is useful for parsing identifiers or names that follow
@@ -1009,9 +974,8 @@ func SplitCamelCase(s string) []string {
 //
 // Example:
 //
-// input := "prefix_example"
-// output := RemovePrefixes(input, "prefix_", "test_")
-// // output will be "example"
+//	input := "prefix_example"
+//	output := RemovePrefixes(input, "prefix_", "test_") // output will be "example"
 //
 // Notes:
 //   - This function is useful for cleaning up strings by removing unwanted or
@@ -1046,9 +1010,8 @@ func RemovePrefixes(s string, prefixes ...string) string {
 //
 // Example:
 //
-// input := "This is a long string."
-// output := Abbreviate(input, 10)
-// // output will be "This is..."
+//	input := "This is a long string."
+//	output := Abbreviate(input, 10) // output will be "This is..."
 func Abbreviate(str string, maxWidth int) string {
 	if IsEmpty(str) {
 		return str
@@ -1074,9 +1037,8 @@ func Abbreviate(str string, maxWidth int) string {
 //
 // Example:
 //
-// input := "This is a long string."
-// output := AbbreviateWithOffset(input, 5, 10)
-// // output will be "...s is a..."
+//	input := "This is a long string."
+//	output := AbbreviateWithOffset(input, 5, 10) // output will be "...s is a..."
 //
 // Notes:
 //   - The function ensures that the abbreviation makes sense even if the offset or maxWidth
@@ -1120,10 +1082,9 @@ func AbbreviateWithOffset(str string, offset int, maxWidth int) string {
 //
 // Example:
 //
-// input := "hello world"
-// suffix := "world"
-// result := EndsWith(input, suffix)
-// // result will be true
+//	input := "hello world"
+//	suffix := "world"
+//	result := EndsWith(input, suffix) // result will be true
 func EndsWith(str string, suffix string) bool {
 	return internalEndsWith(str, suffix, false)
 }
@@ -1143,10 +1104,9 @@ func EndsWith(str string, suffix string) bool {
 //
 // Example:
 //
-// input := "hello world"
-// suffix := "WORLD"
-// result := EndsWithIgnoreCase(input, suffix)
-// // result will be true
+//	input := "hello world"
+//	suffix := "WORLD"
+//	result := EndsWithIgnoreCase(input, suffix) // result will be true
 func EndsWithIgnoreCase(str string, suffix string) bool {
 	return internalEndsWith(str, suffix, true)
 }
@@ -1168,10 +1128,9 @@ func EndsWithIgnoreCase(str string, suffix string) bool {
 //
 // Example:
 //
-// input := "example"
-// suffix := "txt"
-// result := AppendIfMissing(input, suffix)
-// // result will be "exampletxt" if input does not already end with "txt".
+//	input := "example"
+//	suffix := "txt"
+//	result := AppendIfMissing(input, suffix) // result will be "exampletxt" if input does not already end with "txt".
 //
 // Notes:
 //   - This function is case-sensitive.
@@ -1197,10 +1156,9 @@ func AppendIfMissing(str string, suffix string, suffixes ...string) string {
 //
 // Example:
 //
-// input := "example"
-// suffix := "Txt"
-// result := AppendIfMissingIgnoreCase(input, suffix)
-// // result will be "exampleTxt" if input does not already end with "Txt" or any suffix provided.
+//	input := "example"
+//	suffix := "Txt"
+//	result := AppendIfMissingIgnoreCase(input, suffix) // result will be "exampleTxt" if input does not already end with "Txt" or any suffix provided.
 //
 // Notes:
 //   - This function is case-insensitive, so "Txt" and "txt" will be considered equivalent.
@@ -1222,9 +1180,8 @@ func AppendIfMissingIgnoreCase(str string, suffix string, suffixes ...string) st
 //
 // Example:
 //
-// input := "hello"
-// output := Capitalize(input)
-// // output will be "Hello"
+//	input := "hello"
+//	output := Capitalize(input) // output will be "Hello"
 //
 // Notes:
 //   - The function only modifies the first character. If the first character is already uppercase,
@@ -1255,17 +1212,14 @@ func Capitalize(str string) string {
 //
 // Example:
 //
-// input := "hello\n"
-// output := Chomp(input)
-// // output will be "hello"
+//	input := "hello\n"
+//	output := Chomp(input) // output will be "hello"
 //
-// input := "world\r\n"
-// output := Chomp(input)
-// // output will be "world"
+//	input := "world\r\n"
+//	output := Chomp(input) // output will be "world"
 //
-// input := "test"
-// output := Chomp(input)
-// // output will be "test" (no change)
+//	input := "test"
+//	output := Chomp(input) // output will be "test" (no change)
 //
 // Notes:
 //   - This function removes at most one newline or carriage return sequence from the end of the string.
@@ -1301,13 +1255,11 @@ func Chomp(str string) string {
 //
 // Example:
 //
-// input := "hello\n"
-// output := Chop(input)
-// // output will be "hello" (removes the newline)
+//	input := "hello\n"
+//	output := Chop(input) // output will be "hello" (removes the newline)
 //
-// input := "world"
-// output := Chop(input)
-// // output will be "worl" (removes the last character)
+//	input := "world"
+//	output := Chop(input) // output will be "worl" (removes the last character)
 //
 // Notes:
 //   - `Chop` first attempts to remove a newline sequence using `Chomp`. If a newline is found and removed,
@@ -1338,10 +1290,9 @@ func Chop(str string) string {
 //
 // Example:
 //
-// input := "hello world"
-// search := "world"
-// result := Contains(input, search)
-// // result will be true as "world" is present in "hello world".
+//	input := "hello world"
+//	search := "world"
+//	result := Contains(input, search) // result will be true as "world" is present in "hello world".
 func Contains(str string, search string) bool {
 	return strings.Contains(str, search)
 }
@@ -1361,10 +1312,9 @@ func Contains(str string, search string) bool {
 //
 // Example:
 //
-// input := "hello world"
-// search := []string{"foo", "world"}
-// result := ContainsAny(input, search...)
-// // result will be true because "world" is found in "hello world".
+//	input := "hello world"
+//	search := []string{"foo", "world"}
+//	result := ContainsAny(input, search...) // result will be true because "world" is found in "hello world".
 //
 // Notes:
 //   - The function iterates over the `search` substrings and checks each one individually.
@@ -1395,10 +1345,9 @@ func ContainsAny(str string, search ...string) bool {
 //
 // Example:
 //
-// input := "Hello World"
-// search := "world"
-// result := ContainsIgnoreCase(input, search)
-// // result will be true as "world" is found in "Hello World" ignoring case.
+//	input := "Hello World"
+//	search := "world"
+//	result := ContainsIgnoreCase(input, search) // result will be true as "world" is found in "Hello World" ignoring case.
 func ContainsIgnoreCase(str string, search string) bool {
 	return strings.Contains(strings.ToLower(str), strings.ToLower(search))
 }
@@ -1419,10 +1368,9 @@ func ContainsIgnoreCase(str string, search string) bool {
 //
 // Example:
 //
-// input := "hello world"
-// search := []string{"foo", "bar"}
-// result := ContainsNone(input, search...)
-// // result will be true because neither "foo" nor "bar" are present in "hello world".
+//	input := "hello world"
+//	search := []string{"foo", "bar"}
+//	result := ContainsNone(input, search...) // result will be true because neither "foo" nor "bar" are present in "hello world".
 func ContainsNone(str string, search ...string) bool {
 	return !ContainsAny(str, search...)
 }
@@ -1442,10 +1390,9 @@ func ContainsNone(str string, search ...string) bool {
 //
 // Example:
 //
-// input := "hello"
-// search := "aeiou"
-// result := ContainsAnyCharacter(input, search)
-// // result will be true because "hello" contains the character 'e'.
+//	input := "hello"
+//	search := "aeiou"
+//	result := ContainsAnyCharacter(input, search) // result will be true because "hello" contains the character 'e'.
 func ContainsAnyCharacter(str string, search string) bool {
 	for _, c := range search {
 		if Contains(str, (string)(c)) {
@@ -1472,10 +1419,9 @@ func ContainsAnyCharacter(str string, search string) bool {
 //
 // Example:
 //
-// input := "hello"
-// search := "xyz"
-// result := ContainsNoneCharacter(input, search)
-// // result will be true because "hello" contains none of the characters 'x', 'y', or 'z'.
+//	input := "hello"
+//	search := "xyz"
+//	result := ContainsNoneCharacter(input, search) // result will be true because "hello" contains none of the characters 'x', 'y', or 'z'.
 func ContainsNoneCharacter(str string, search string) bool {
 	return !ContainsAnyCharacter(str, search)
 }
@@ -1497,10 +1443,9 @@ func ContainsNoneCharacter(str string, search string) bool {
 //
 // Example:
 //
-// inputStr := "abc"
-// allowedChars := []string{"a", "b", "c", "d"}
-// result := ContainsOnly(inputStr, allowedChars...)
-// // result will be true because "abc" contains only the allowed characters.
+//	inputStr := "abc"
+//	allowedChars := []string{"a", "b", "c", "d"}
+//	result := ContainsOnly(inputStr, allowedChars...) // result will be true because "abc" contains only the allowed characters.
 //
 // Notes:
 //   - The function performs a character-by-character check and is case-sensitive.
@@ -1571,9 +1516,8 @@ func IsAlpha(str string) bool {
 //
 // Example:
 //
-// inputStr := "Hello123"
-// result := IsAlphanumeric(inputStr)
-// // result will be true because "Hello123" consists only of letters and digits.
+//	inputStr := "Hello123"
+//	result := IsAlphanumeric(inputStr) // result will be true because "Hello123" consists only of letters and digits.
 //
 // Notes:
 //   - This function is case-sensitive; both uppercase and lowercase letters are accepted.
@@ -1606,9 +1550,8 @@ func IsAlphanumeric(str string) bool {
 //
 // Example:
 //
-// inputStr := "Hello World"
-// result := IsAlphaSpace(inputStr)
-// // result will be true because "Hello World" consists only of letters and spaces.
+//	inputStr := "Hello World"
+//	result := IsAlphaSpace(inputStr) // result will be true because "Hello World" consists only of letters and spaces.
 //
 // Notes:
 //   - This function is case-sensitive; both uppercase and lowercase letters are accepted.
@@ -1642,9 +1585,8 @@ func IsAlphaSpace(str string) bool {
 //
 // Example:
 //
-// inputStr := "Hello123 World"
-// result := IsAlphanumericSpace(inputStr)
-// // result will be true because "Hello123 World" consists only of letters, digits, and spaces.
+//	inputStr := "Hello123 World"
+//	result := IsAlphanumericSpace(inputStr) // result will be true because "Hello123 World" consists only of letters, digits, and spaces.
 //
 // Notes:
 //   - This function is case-sensitive; both uppercase and lowercase letters are accepted.
@@ -1677,9 +1619,8 @@ func IsAlphanumericSpace(str string) bool {
 //
 // Example:
 //
-// bools := []bool{true, false, true}
-// result := JoinBool(bools, ", ")
-// // result will be "true, false, true"
+//	bools := []bool{true, false, true}
+//	result := JoinBool(bools, ", ") // result will be "true, false, true"
 func JoinBool(a []bool, sep string) string {
 	strs := make([]string, len(a))
 	for idx, i := range a {
@@ -1704,9 +1645,8 @@ func JoinBool(a []bool, sep string) string {
 //
 // Example:
 //
-// floats := []float64{1.23, 4.56, 7.89}
-// result := JoinFloat64(floats, ", ")
-// // result will be "1.23, 4.56, 7.89"
+//	floats := []float64{1.23, 4.56, 7.89}
+//	result := JoinFloat64(floats, ", ") // result will be "1.23, 4.56, 7.89"
 func JoinFloat64(a []float64, sep string) string {
 	return JoinFloat64WithFormatAndPrecision(a, 'G', 32, sep)
 }
@@ -1729,15 +1669,14 @@ func JoinFloat64(a []float64, sep string) string {
 //
 // Example:
 //
-// floats := []float64{1.2345, 6.7890}
-// result := JoinFloat64WithFormatAndPrecision(floats, 'f', 2, ", ")
-// // result will be "1.23, 6.79"
+//	floats := []float64{1.2345, 6.7890}
+//	result := JoinFloat64WithFormatAndPrecision(floats, 'f', 2, ", ") // result will be "1.23, 6.79"
 func JoinFloat64WithFormatAndPrecision(a []float64, fmt byte, precision int, sep string) string {
-	strs := make([]string, len(a))
+	list := make([]string, len(a))
 	for idx, i := range a {
-		strs[idx] = strconv.FormatFloat(i, fmt, -1, precision)
+		list[idx] = strconv.FormatFloat(i, fmt, -1, precision)
 	}
-	return JoinUnary(strs, sep)
+	return JoinUnary(list, sep)
 }
 
 // JoinInt concatenates a slice of integers into a single string,
@@ -1755,15 +1694,14 @@ func JoinFloat64WithFormatAndPrecision(a []float64, fmt byte, precision int, sep
 //
 // Example:
 //
-// ints := []int{1, 2, 3}
-// result := JoinInt(ints, ", ")
-// // result will be "1, 2, 3"
+//	ints := []int{1, 2, 3}
+//	result := JoinInt(ints, ", ") // result will be "1, 2, 3"
 func JoinInt(a []int, sep string) string {
-	strs := make([]string, len(a))
+	list := make([]string, len(a))
 	for idx, i := range a {
-		strs[idx] = strconv.Itoa(i)
+		list[idx] = strconv.Itoa(i)
 	}
-	return JoinUnary(strs, sep)
+	return JoinUnary(list, sep)
 }
 
 // JoinInt64 concatenates a slice of int64 values into a single string,
@@ -1781,15 +1719,14 @@ func JoinInt(a []int, sep string) string {
 //
 // Example:
 //
-// int64s := []int64{100, 200, 300}
-// result := JoinInt64(int64s, ", ")
-// // result will be "100, 200, 300"
+//	int64s := []int64{100, 200, 300}
+//	result := JoinInt64(int64s, ", ") // result will be "100, 200, 300"
 func JoinInt64(a []int64, sep string) string {
-	strs := make([]string, len(a))
+	list := make([]string, len(a))
 	for idx, i := range a {
-		strs[idx] = strconv.FormatInt(i, 10)
+		list[idx] = strconv.FormatInt(i, 10)
 	}
-	return JoinUnary(strs, sep)
+	return JoinUnary(list, sep)
 }
 
 // JoinUint64 concatenates a slice of uint64 values into a single string,
@@ -1807,15 +1744,14 @@ func JoinInt64(a []int64, sep string) string {
 //
 // Example:
 //
-// uint64s := []uint64{1000, 2000, 3000}
-// result := JoinUint64(uint64s, ", ")
-// // result will be "1000, 2000, 3000"
+//	uint64s := []uint64{1000, 2000, 3000}
+//	result := JoinUint64(uint64s, ", ") // result will be "1000, 2000, 3000"
 func JoinUint64(ints []uint64, sep string) string {
-	strs := make([]string, len(ints))
+	list := make([]string, len(ints))
 	for idx, i := range ints {
-		strs[idx] = strconv.FormatUint(i, 10)
+		list[idx] = strconv.FormatUint(i, 10)
 	}
-	return JoinUnary(strs, sep)
+	return JoinUnary(list, sep)
 }
 
 // Mid extracts a substring of a specified size from the middle of a given string, starting at a specified position.
@@ -1837,9 +1773,8 @@ func JoinUint64(ints []uint64, sep string) string {
 //
 // Example:
 //
-// input := "Hello, World!"
-// result := Mid(input, 7, 5)
-// // result will be "World"
+//	input := "Hello, World!"
+//	result := Mid(input, 7, 5) // result will be "World"
 func Mid(str string, pos int, size int) string {
 	if str == "" || size < 0 || pos > len(str) {
 		return ""
@@ -1873,12 +1808,10 @@ func Mid(str string, pos int, size int) string {
 //
 // Example:
 //
-// original := "Hello, World!"
-// newString := Overlay(original, "Gopher", 7, 12)
-// // newString will be "Hello, Gopher!"
+//	original := "Hello, World!"
+//	newString := Overlay(original, "Gopher", 7, 12) // newString will be "Hello, Gopher!"
 func Overlay(str string, overlay string, start int, end int) string {
 	strLen := len(str)
-	// guards
 	if start < 0 {
 		start = 0
 	}
@@ -1913,9 +1846,8 @@ func Overlay(str string, overlay string, start int, end int) string {
 //
 // Example:
 //
-// input := "Hello, world! Goodbye, world!"
-// result := Remove(input, "world")
-// // result will be "Hello, ! Goodbye, !"
+//	input := "Hello, world! Goodbye, world!"
+//	result := Remove(input, "world") // result will be "Hello, ! Goodbye, !"
 func Remove(str string, remove string) string {
 	if IsEmpty(str) {
 		return str
@@ -1943,9 +1875,8 @@ func Remove(str string, remove string) string {
 //
 // Example:
 //
-// input := "example.txt"
-// result := RemoveEnd(input, ".txt")
-// // result will be "example" since ".txt" is at the end of the string.
+//	input := "example.txt"
+//	result := RemoveEnd(input, ".txt") // result will be "example" since ".txt" is at the end of the string.
 func RemoveEnd(str string, remove string) string {
 	if IsEmpty(str) || IsEmpty(remove) {
 		return str
@@ -1971,9 +1902,8 @@ func RemoveEnd(str string, remove string) string {
 //
 // Example:
 //
-// input := "example.TXT"
-// result := RemoveEndIgnoreCase(input, ".txt")
-// // result will be "example" since ".txt" is found at the end of the string ignoring case.
+//	input := "example.TXT"
+//	result := RemoveEndIgnoreCase(input, ".txt") // result will be "example" since ".txt" is found at the end of the string ignoring case.
 func RemoveEndIgnoreCase(str string, remove string) string {
 	if IsEmpty(str) || IsEmpty(remove) {
 		return str
@@ -1997,10 +1927,9 @@ func RemoveEndIgnoreCase(str string, remove string) string {
 //
 // Example:
 //
-// input := "abc123xyz"
-// pattern := "[0-9]+" // matches all digits
-// result := RemovePattern(input, pattern)
-// // result will be "abcxyz" since all digits are removed from the string.
+//	input := "abc123xyz"
+//	pattern := "[0-9]+" // matches all digits
+//	result := RemovePattern(input, pattern) // result will be "abcxyz" since all digits are removed from the string.
 func RemovePattern(str string, pattern string) string {
 	return regexp.MustCompile(pattern).ReplaceAllString(str, "")
 }
@@ -2036,15 +1965,13 @@ func RemoveStart(str string, remove string) string {
 //
 // Example:
 //
-// input := "Hello, World!"
-// remove := "hello"
-// result := RemoveStartIgnoreCase(input, remove)
-// // result will be "Hello, World!" since input does not start with "hello" (case-insensitive).
+//	input := "Hello, World!"
+//	remove := "hello"
+//	result := RemoveStartIgnoreCase(input, remove) // result will be "Hello, World!" since input does not start with "hello" (case-insensitive).
 //
-// input2 := "Hello, World!"
-// remove2 := "Hello"
-// result2 := RemoveStartIgnoreCase(input2, remove2)
-// // result2 will be ", World!" since input2 starts with "Hello" (case-insensitive).
+//	input2 := "Hello, World!"
+//	remove2 := "Hello"
+//	result2 := RemoveStartIgnoreCase(input2, remove2) // result2 will be ", World!" since input2 starts with "Hello" (case-insensitive).
 //
 // Notes:
 //   - This function is case-insensitive, so it will remove the substring regardless of
@@ -2075,10 +2002,9 @@ func RemoveStartIgnoreCase(str string, remove string) string {
 //
 // Example:
 //
-// str := "Hello, World!"
-// prefix := "Hello"
-// result := StartsWith(str, prefix)
-// // result will be true since str starts with the prefix "Hello".
+//	str := "Hello, World!"
+//	prefix := "Hello"
+//	result := StartsWith(str, prefix) // result will be true since str starts with the prefix "Hello".
 //
 // Notes:
 //   - This function is case-sensitive; for case-insensitive checks, use a different
@@ -2104,10 +2030,9 @@ func StartsWith(str string, prefix string) bool {
 //
 // Example:
 //
-// str := "Hello, World!"
-// prefix := "hello"
-// result := StartsWithIgnoreCase(str, prefix)
-// // result will be true since str starts with the prefix "hello", ignoring case.
+//	str := "Hello, World!"
+//	prefix := "hello"
+//	result := StartsWithIgnoreCase(str, prefix) // result will be true since str starts with the prefix "hello", ignoring case.
 //
 // Notes:
 //   - This function is case-insensitive; if a case-sensitive check is required,
@@ -2132,13 +2057,11 @@ func StartsWithIgnoreCase(str string, prefix string) bool {
 //
 // Example:
 //
-// input := "abc"
-// result := Repeat(input, 3)
-// // result will be "abcabcabc".
+//	input := "abc"
+//	result := Repeat(input, 3) // result will be "abcabcabc".
 //
-// input2 := "xyz"
-// result2 := Repeat(input2, 0)
-// // result2 will be "" (empty string).
+//	input2 := "xyz"
+//	result2 := Repeat(input2, 0) // result2 will be "" (empty string).
 func Repeat(str string, repeat int) string {
 	buff := ""
 	for repeat > 0 {
@@ -2166,15 +2089,13 @@ func Repeat(str string, repeat int) string {
 //
 // Example:
 //
-// input := "abc"
-// sep := "-"
-// result := RepeatWithSeparator(input, sep, 3)
-// // result will be "abc-abc-abc".
+//	input := "abc"
+//	sep := "-"
+//	result := RepeatWithSeparator(input, sep, 3) // result will be "abc-abc-abc".
 //
-// input2 := "hello"
-// sep2 := ", "
-// result2 := RepeatWithSeparator(input2, sep2, 0)
-// // result2 will be "" (empty string).
+//	input2 := "hello"
+//	sep2 := ", "
+//	result2 := RepeatWithSeparator(input2, sep2, 0) // result2 will be "" (empty string).
 func RepeatWithSeparator(str string, sep string, repeat int) string {
 	buff := ""
 	for repeat > 0 {
@@ -2204,15 +2125,12 @@ func RepeatWithSeparator(str string, sep string, repeat int) string {
 //
 // Example:
 //
-// input := "apple,banana,cherry"
-// delimiter := ","
-// result := ReverseDelimited(input, delimiter)
-// // result will be "cherry,banana,apple".
-//
-// input2 := "one|two|three"
-// delimiter2 := "|"
-// result2 := ReverseDelimited(input2, delimiter2)
-// // result2 will be "three|two|one".
+//	input := "apple,banana,cherry"
+//	delimiter := ","
+//	result := ReverseDelimited(input, delimiter) // result will be "cherry,banana,apple".
+//	input2 := "one|two|three"
+//	delimiter2 := "|"
+//	result2 := ReverseDelimited(input2, delimiter2) // result2 will be "three|two|one".
 //
 // Notes:
 //   - The function modifies the order of the substrings but retains the original delimiter.
@@ -2240,9 +2158,8 @@ func ReverseDelimited(str string, del string) string {
 //
 // Example:
 //
-// input := "   Hello, World!   "
-// result := Strip(input)
-// // result will be "Hello, World!".
+//	input := "   Hello, World!   "
+//	result := Strip(input) // result will be "Hello, World!".
 func Strip(str string) string {
 	return regexp.MustCompile(`^\s+|\s+$`).ReplaceAllString(str, "")
 }
@@ -2262,9 +2179,8 @@ func Strip(str string) string {
 //
 // Example:
 //
-// input := "Hello, World!   "
-// result := StripEnd(input)
-// // result will be "Hello, World!".
+//	input := "Hello, World!   "
+//	result := StripEnd(input) // result will be "Hello, World!".
 func StripEnd(str string) string {
 	return regexp.MustCompile(`\s+$`).ReplaceAllString(str, "")
 }
@@ -2284,9 +2200,8 @@ func StripEnd(str string) string {
 //
 // Example:
 //
-// input := "   Hello, World!"
-// result := StripStart(input)
-// // result will be "Hello, World!".
+//	input := "   Hello, World!"
+//	result := StripStart(input) // result will be "Hello, World!".
 func StripStart(str string) string {
 	return regexp.MustCompile(`^\s+`).ReplaceAllString(str, "")
 }
@@ -2309,9 +2224,8 @@ func StripStart(str string) string {
 //
 // Example:
 //
-// input := "Hello, World!"
-// result := SwapCase(input)
-// // result will be "hELLO, wORLD!".
+//	input := "Hello, World!"
+//	result := SwapCase(input) // result will be "hELLO, wORLD!".
 //
 // Notes:
 //   - This function utilizes the `unicode` package to check the case of each character
@@ -2349,9 +2263,8 @@ func SwapCase(str string) string {
 //
 // Example:
 //
-// input := "Hello"
-// result := UnCapitalize(input)
-// // result will be "hello".
+//	input := "Hello"
+//	result := UnCapitalize(input) // result will be "hello".
 //
 // Notes:
 //   - This function assumes that the input string contains at least one character
@@ -2384,10 +2297,9 @@ func UnCapitalize(str string) string {
 //
 // Example:
 //
-// input := "Hello"
-// wrapWith := "***"
-// result := Wrap(input, wrapWith)
-// // result will be "***Hello***".
+//	input := "Hello"
+//	wrapWith := "***"
+//	result := Wrap(input, wrapWith) // result will be "***Hello***".
 //
 // Notes:
 //   - This function does not modify the original string; it creates and returns
@@ -2418,10 +2330,9 @@ func Wrap(str string, wrapWith string) string {
 //
 // Example:
 //
-// input := "example"
-// prefix := "test_"
-// result := PrependIfMissing(input, prefix)
-// // result will be "test_example" if input does not already start with "test_".
+//	input := "example"
+//	prefix := "test_"
+//	result := PrependIfMissing(input, prefix) // result will be "test_example" if input does not already start with "test_".
 //
 // Notes:
 //   - This function is case-sensitive.
@@ -2448,10 +2359,9 @@ func PrependIfMissing(str string, prefix string, prefixes ...string) string {
 //
 // Example:
 //
-// input := "example"
-// prefix := "Test_"
-// result := PrependIfMissingIgnoreCase(input, prefix)
-// // result will be "Test_example" if input does not already start with "Test_" or any prefix provided.
+//	input := "example"
+//	prefix := "Test_"
+//	result := PrependIfMissingIgnoreCase(input, prefix) // result will be "Test_example" if input does not already start with "Test_" or any prefix provided.
 //
 // Notes:
 //   - This function is case-insensitive, so "Test_" and "test_" will be considered equivalent.
@@ -2475,9 +2385,9 @@ func PrependIfMissingIgnoreCase(str string, prefix string, prefixes ...string) s
 //
 // Example:
 //
-// str := "The quick brown fox"
-// words := []string{"quick", "fox"}
-// result := ContainsAllWords(str, words...) // result will be true
+//	str := "The quick brown fox"
+//	words := []string{"quick", "fox"}
+//	result := ContainsAllWords(str, words...) // result will be true
 func ContainsAllWords(str string, words ...string) bool {
 	if str == "" || len(words) == 0 {
 		return false
@@ -2506,8 +2416,8 @@ func ContainsAllWords(str string, words ...string) bool {
 //
 // Example:
 //
-// str := "Hello World"
-// result := Initials(str) // result will be "HW"
+//	str := "Hello World"
+//	result := Initials(str) // result will be "HW"
 func Initials(str string) string {
 	return InitialsDelimited(str, nil...)
 }
@@ -2531,9 +2441,9 @@ func Initials(str string) string {
 //
 // Example:
 //
-// str := "Hello, World! How are you?"
-// delimiters := []string{",", "!", "?"}
-// result := InitialsDelimited(str, delimiters...) // result will be "HWH"
+//	str := "Hello, World! How are you?"
+//	delimiters := []string{",", "!", "?"}
+//	result := InitialsDelimited(str, delimiters...) // result will be "HWH"
 func InitialsDelimited(str string, delimiters ...string) string {
 	if IsEmpty(str) || (delimiters != nil && len(delimiters) == 0) {
 		return str
@@ -2625,10 +2535,9 @@ func prependIfMissing(str string, prefix string, ignoreCase bool, prefixes ...st
 //
 // Example:
 //
-// str := "Hello, World!"
-// prefix := "Hello"
-// result := internalStartsWith(str, prefix, false)
-// // result will be true since str starts with the prefix "Hello".
+//	str := "Hello, World!"
+//	prefix := "Hello"
+//	result := internalStartsWith(str, prefix, false) // result will be true since str starts with the prefix "Hello".
 //
 // Notes:
 //   - If both `str` and `prefix` are empty, the function returns true.
@@ -2692,10 +2601,9 @@ func internalEndsWith(str string, suffix string, ignoreCase bool) bool {
 //
 // Example:
 //
-// input := "example"
-// suffix := "txt"
-// result := internalAppendIfMissing(input, suffix, false)
-// // result will be "exampletxt" if input does not already end with "txt".
+//	input := "example"
+//	suffix := ".txt"
+//	result := internalAppendIfMissing(input, suffix, false) // result will be "example.txt" if input does not already end with ".txt".
 //
 // Notes:
 //   - This function is case-insensitive if `ignoreCase` is set to true.
@@ -2743,10 +2651,9 @@ func internalAppendIfMissing(str string, suffix string, ignoreCase bool, suffixe
 //
 // Example:
 //
-// inputStr := "apple"
-// strList := []string{"banana", "orange", "apple", "grape"}
-// result := stringInSlice(inputStr, strList)
-// // result will be true because "apple" is present in the strList.
+//	inputStr := "apple"
+//	strList := []string{"banana", "orange", "apple", "grape"}
+//	result := stringInSlice(inputStr, strList) // result will be true because "apple" is present in the strList.
 func stringInSlice(a string, list []string) bool {
 	for _, b := range list {
 		if b == a {

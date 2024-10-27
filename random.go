@@ -24,16 +24,16 @@ func init() {
 // r.Intn(max-min+1) + min, where `r` is a custom random generator that has been initialized elsewhere in the code.
 //
 // Parameters:
-// - `min`: The lower bound of the random number range (inclusive).
-// - `max`: The upper bound of the random number range (inclusive).
+//   - `min`: The lower bound of the random number range (inclusive).
+//   - `max`: The upper bound of the random number range (inclusive).
 //
 // Returns:
-// - A random integer between `min` and `max`, including both bounds.
+//   - A random integer between `min` and `max`, including both bounds.
 //
 // Example:
 //
-// randomNum := NextInt(1, 10)
-// fmt.Println("Random number between 1 and 10:", randomNum)
+//	randomNum := NextInt(1, 10)
+//	fmt.Println("Random number between 1 and 10:", randomNum)
 func NextInt(min, max int) int {
 	if min >= max {
 		return min // or handle the error appropriately
@@ -57,21 +57,20 @@ func NextInt(min, max int) int {
 // in the result by using the formula: r.Intn(max-min+1) + min.
 //
 // Parameters:
-// - `min`: The lower bound of the random number range (inclusive).
-// - `max`: The upper bound of the random number range (inclusive).
+//   - `min`: The lower bound of the random number range (inclusive).
+//   - `max`: The upper bound of the random number range (inclusive).
 //
 // Returns:
-// - A random integer between `min` and `max`, including both bounds.
+//   - A random integer between `min` and `max`, including both bounds.
 //
 // Example:
 //
-// randomNum := NextReseed(1, 10)
-// fmt.Println("Random number between 1 and 10 after reseeding:", randomNum)
+//	randomNum := NextReseed(1, 10)
+//	fmt.Println("Random number between 1 and 10 after reseeding:", randomNum)
 func NextReseed(min, max int) int {
 	// Reseed the custom random generator with a new seed
 	x := time.Now().UTC().UnixNano() + int64(r.Int())
 	r.Seed(x)
-
 	// Ensure max is included in the range
 	if min >= max {
 		return min
@@ -88,12 +87,12 @@ func NextReseed(min, max int) int {
 // It abstracts away the error handling by returning an empty string in case of failure.
 //
 // Returns:
-// - A string representing the newly generated UUID.
-// - An empty string if an error occurs during UUID generation.
+//   - A string representing the newly generated UUID.
+//   - An empty string if an error occurs during UUID generation.
 //
 // Example:
 //
-// uuid := NextUUID()
+//	uuid := NextUUID()
 //
 //	if uuid == "" {
 //	    fmt.Println("Failed to generate UUID")

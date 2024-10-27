@@ -15,18 +15,16 @@ import (
 // XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX, where X is a hexadecimal digit.
 //
 // Returns:
-// - A string representing the newly generated UUID.
-// - An error if there is an issue opening or reading from /dev/urandom.
+//   - A string representing the newly generated UUID.
+//   - An error if there is an issue opening or reading from /dev/urandom.
 //
 // Example:
 //
-// uuid, err := GenerateUUID()
-//
-//	if err != nil {
-//	    log.Fatalf("Failed to generate UUID: %v", err)
-//	}
-//
-// fmt.Println("Generated UUID:", uuid)
+//	 uuid, err := GenerateUUID()
+//		if err != nil {
+//		    log.Fatalf("Failed to generate UUID: %v", err)
+//		}
+//	 fmt.Println("Generated UUID:", uuid)
 //
 // Notes:
 //   - This function is designed for Unix-based systems. On non-Unix systems, this may not work because /dev/urandom
