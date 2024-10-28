@@ -5,6 +5,8 @@ import (
 	"unicode/utf8"
 )
 
+type result int
+
 var (
 	// Len is an alias for the utf8.RuneCountInString function, which returns the number of runes
 	// (Unicode code points) in the given string. This function treats erroneous and short
@@ -19,4 +21,14 @@ var (
 	// with a single space, or for validating string formats where excessive whitespace should
 	// be trimmed or removed.
 	RegexpDupSpaces = regexp.MustCompile(`\s+`)
+
+	// MaxRuneBytes represents the maximum valid UTF-8 encoding of a Unicode code point.
+	// It is a byte slice containing the specific byte values [244, 143, 191, 191].
+	MaxRuneBytes = [...]byte{244, 143, 191, 191}
+)
+
+const (
+	rightNoMatch result = iota
+	rightMatch
+	rightStop
 )
