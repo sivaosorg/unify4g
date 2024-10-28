@@ -5,8 +5,6 @@ import (
 	"unicode/utf8"
 )
 
-type result int
-
 var (
 	// Len is an alias for the utf8.RuneCountInString function, which returns the number of runes
 	// (Unicode code points) in the given string. This function treats erroneous and short
@@ -31,4 +29,18 @@ const (
 	rightNoMatch result = iota
 	rightMatch
 	rightStop
+)
+
+const (
+	byKey byKind = 0
+	byVal byKind = 1
+)
+
+const (
+	jsonNull jsonType = iota
+	jsonFalse
+	jNumber
+	jsonString
+	jsonTrue
+	jsonJson
 )
