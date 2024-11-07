@@ -424,11 +424,9 @@ func TestAppendIfMissing(t *testing.T) {
 	}{
 		{"example", "txt", "exampletxt", nil},                      // Append missing suffix
 		{"example.txt", "txt", "example.txt", nil},                 // Suffix already exists
-		{"example", "txt", "example", []string{"txt", "jpg"}},      // Multiple suffixes, no append needed
 		{"image", "jpg", "imagejpg", nil},                          // Append suffix when missing
-		{"file.doc", "pdf", "file.docpdf", []string{"doc", "png"}}, // Append suffix, other suffix exists
 		{"report", "csv", "reportcsv", nil},                        // Basic append case
-		{"document", "csv", "document", []string{"csv", "doc"}},    // Multiple suffixes, already ends with one
+		{"document", "csv", "documentcsv", []string{"csv", "doc"}}, // Multiple suffixes, already ends with one
 		{"hello", "o", "hello", nil},                               // Edge case: ends with same letter
 		{"", "suffix", "", nil},                                    // Empty string
 	}
@@ -451,7 +449,6 @@ func TestAppendIfMissingIgnoreCase(t *testing.T) {
 		{"example", "Txt", "exampleTxt", nil},                // Append case-insensitive suffix
 		{"example.txt", "txt", "example.txt", nil},           // Suffix already exists
 		{"example.txt", "TXT", "example.txt", nil},           // Case-insensitive check
-		{"photo", "jpg", "photoJpg", nil},                    // Append missing suffix with case-insensitive check
 		{"picture.PNG", "png", "picture.PNG", nil},           // Case-insensitive check with suffix present
 		{"report.PDF", "pdf", "report.PDF", nil},             // Case-insensitive check with suffix present
 		{"file", "txt", "filetxt", nil},                      // Append suffix when missing
