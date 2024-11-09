@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"reflect"
 	"sort"
+	"strings"
 	"time"
 )
 
@@ -1586,4 +1587,580 @@ func Difference[T comparable](slice1, slice2 []T) []T {
 		}
 	}
 	return result
+}
+
+// JoinMapKeys concatenates the keys of a map into a single string, with each key separated by a specified separator.
+//
+// This function takes a map `m` with string keys and any type of values `V`, and a `separator` string.
+// It collects all the keys of the map into a slice, then joins them into a single string using the provided separator.
+//
+// This function is generic, allowing it to work with maps that have values of any type `V`.
+//
+// Parameters:
+//   - `m`: A map with string keys and values of any type `V`. Only the keys are used for concatenation.
+//   - `separator`: A string used to separate each key in the resulting string.
+//
+// Returns:
+//   - A string containing all the keys in the map `m`, separated by the specified `separator`. If the map has no keys,
+//     an empty string is returned.
+//
+// Example:
+//
+//	// Concatenating the keys of a map with a comma separator
+//	m := map[string]int{"apple": 1, "banana": 2, "cherry": 3}
+//	joinedKeys := JoinMapKeys(m, ", ")
+//	// joinedKeys will be "apple, banana, cherry"
+//
+//	// Using a different separator
+//	m = map[string]bool{"cat": true, "dog": true}
+//	joinedKeys = JoinMapKeys(m, " | ")
+//	// joinedKeys will be "cat | dog"
+//
+//	// With an empty map
+//	emptyMap := map[string]int{}
+//	joinedKeys = JoinMapKeys(emptyMap, ",")
+//	// joinedKeys will be ""
+func JoinMapKeys[V any](m map[string]V, separator string) string {
+	joined_keys := []string{}
+	for key := range m {
+		joined_keys = append(joined_keys, key)
+	}
+	return strings.Join(joined_keys, separator)
+}
+
+// DeepMergeMap merges two maps, deeply combining values from the source map into the target map.
+//
+// This function takes two maps: `target` and `source`, both with string keys and interface{} values. It recursively merges
+// the values from the `source` map into the `target` map. If a key exists in both maps, the function checks if the values
+// associated with the key are themselves maps. If so, it recursively merges the nested maps. Otherwise, it directly overwrites
+// the target map's value with the value from the source map. This function allows for deep merging of nested maps.
+//
+// The function modifies the `target` map in place and does not return anything.
+//
+// Parameters:
+//   - `target`: The map that will be updated with values from the `source`. It is modified in place.
+//   - `source`: The map whose values will be merged into the `target`.
+//
+// Example:
+//
+//	// Merging two maps with nested maps
+//	target := map[string]interface{}{
+//		"fruit": map[string]interface{}{"apple": 5, "banana": 10},
+//		"vegetable": map[string]interface{}{"carrot": 3},
+//	}
+//	source := map[string]interface{}{
+//		"fruit": map[string]interface{}{"banana": 7, "orange": 2},
+//		"vegetable": map[string]interface{}{"spinach": 5},
+//		"grain": 100,
+//	}
+//	DeepMergeMap(target, source)
+//	// target will now be:
+//	// map[string]interface{}{
+//	//		"fruit": map[string]interface{}{"apple": 5, "banana": 7, "orange": 2},
+//	//		"vegetable": map[string]interface{}{"carrot": 3, "spinach": 5},
+//	//		"grain": 100,
+//	//	}
+//
+//	// If there is no conflict, the value from the source is added as is.
+//	// If the source value is a nested map, the function will perform a deep merge.
+func DeepMergeMap(target, source map[string]interface{}) {
+	for key, sourceValue := range source {
+		if targetValue, exists := target[key]; exists {
+			if sourceMap, sourceIsMap := sourceValue.(map[string]interface{}); sourceIsMap {
+				if targetMap, targetIsMap := targetValue.(map[string]interface{}); targetIsMap {
+					DeepMergeMap(targetMap, sourceMap)
+				}
+			} else {
+				target[key] = sourceValue
+			}
+		} else {
+			target[key] = sourceValue
+		}
+	}
+}
+
+// MergeMapString merges multiple maps of type map[string]string into a single map.
+//
+// This function takes a variadic number of maps of type map[string]string and combines their key-value pairs into a
+// single resulting map. If there are duplicate keys across the input maps, the value from the last map in the
+// variadic list will overwrite the earlier ones.
+//
+// The function creates a new map to hold the merged results, iterating over each input map and adding its
+// key-value pairs to the result map.
+//
+// Parameters:
+//   - `maps`: A variadic parameter that takes one or more maps of type map[string]string to be merged.
+//
+// Returns:
+//   - A new map of type map[string]string that contains all the key-value pairs from the input maps.
+//     If a key appears in multiple maps, the value from the last map will be used.
+//
+// Example:
+//
+//	// Merging two maps
+//	map1 := map[string]string{"a": "apple", "b": "banana"}
+//	map2 := map[string]string{"b": "blueberry", "c": "cherry"}
+//	merged := MergeMapString(map1, map2)
+//	// merged will be map[string]string{"a": "apple", "b": "blueberry", "c": "cherry"}
+//
+//	// Merging more than two maps
+//	map3 := map[string]string{"d": "date"}
+//	mergedAll := MergeMapString(map1, map2, map3)
+//	// mergedAll will be map[string]string{"a": "apple", "b": "blueberry", "c": "cherry", "d": "date"}
+//
+//	// If duplicate keys exist, the value from the last map wins
+//	map4 := map[string]string{"a": "apricot"}
+//	mergedWithDup := MergeMapString(map1, map4)
+//	// mergedWithDup will be map[string]string{"a": "apricot", "b": "banana"}
+func MergeMapString(maps ...map[string]string) map[string]string {
+	result := make(map[string]string)
+	for _, m := range maps {
+		for k, v := range m {
+			result[k] = v
+		}
+	}
+	return result
+}
+
+// MapString2Tb formats a map of type map[string]string into a string representation suitable for a table.
+//
+// This function takes a map with string keys and string values, and formats it into a neatly aligned
+// string where each key and value are presented in two columns. The key column is aligned to the left
+// with the longest key in the map, and the values are displayed next to their corresponding keys. The
+// function uses a `strings.Builder` for efficient string concatenation.
+//
+// The function computes the maximum key length to ensure that all keys align properly. Then, it iterates
+// over each key-value pair in the map, appending them in a formatted manner to the builder.
+//
+// Parameters:
+//   - `data`: A map of type `map[string]string` that contains key-value pairs to be formatted.
+//
+// Returns:
+//   - A string representing the map in a table-like format with keys and values aligned in columns.
+//
+// Example:
+//
+//	// Formatting a map into a table-like string
+//	data := map[string]string{
+//		"apple":  "fruit",
+//		"carrot": "vegetable",
+//		"banana": "fruit",
+//	}
+//	formattedTable := MapString2Tb(data)
+//	// formattedTable will be:
+//	// apple   fruit
+//	// carrot  vegetable
+//	// banana  fruit
+//
+//	// If the keys have different lengths, the function ensures that all values are aligned properly.
+//	// The longest key will define the column width for the keys.
+func MapString2Tb(data map[string]string) string {
+	var builder strings.Builder
+	maxKeyLength := 0
+	for key := range data {
+		if len(key) > maxKeyLength {
+			maxKeyLength = len(key)
+		}
+	}
+	for key, value := range data {
+		fmt.Fprintf(&builder, "%-*s   %s\n", maxKeyLength, key, value)
+	}
+	return builder.String()
+}
+
+// Map2Table formats a map of type map[string]interface{} into a string representation suitable for a table.
+//
+// This function takes a map with string keys and values of any type (interface{}), and formats it into a neatly
+// aligned string where each key and value are presented in two columns. The key column is aligned to the left
+// with the longest key in the map, and the corresponding values are displayed next to their keys. The function
+// uses a `strings.Builder` for efficient string concatenation.
+//
+// The function computes the maximum key length to ensure that all keys align properly. It then iterates over each
+// key-value pair in the map, formatting the value by serializing it into a JSON string using a helper function `Json()`.
+// This ensures that even complex values (such as structs or maps) are represented in a readable format.
+//
+// Parameters:
+//   - `data`: A map of type `map[string]interface{}` that contains key-value pairs to be formatted. The values can
+//     be of any type, and they will be serialized to JSON for proper display.
+//
+// Returns:
+//   - A string representing the map in a table-like format with keys and their serialized values aligned in columns.
+//
+// Example:
+//
+//	// Formatting a map with mixed value types into a table-like string
+//	data := map[string]interface{}{
+//		"fruit":   "apple",
+//		"vegetable": map[string]interface{}{"type": "root", "name": "carrot"},
+//		"quantity": 10,
+//	}
+//	formattedTable := Map2Table(data)
+//	// formattedTable will be:
+//	// fruit       apple
+//	// vegetable   {"type":"root","name":"carrot"}
+//	// quantity    10
+//
+//	// The Json function will serialize the `vegetable` map, ensuring that it is displayed in JSON format.
+func Map2Table(data map[string]interface{}) string {
+	var builder strings.Builder
+	maxKeyLength := 0
+	for key := range data {
+		if len(key) > maxKeyLength {
+			maxKeyLength = len(key)
+		}
+	}
+	for key, value := range data {
+		fmt.Fprintf(&builder, "%-*s   %s\n", maxKeyLength, key, Json(value))
+	}
+	return builder.String()
+}
+
+// IndexExists checks whether a given index is valid for the provided slice.
+//
+// This function takes a slice `slice` of any type `T` and an integer `index`, and returns a boolean indicating
+// whether the specified index is within the valid range for the slice. A valid index is one that is greater than
+// or equal to 0 and less than the length of the slice.
+//
+// Parameters:
+//   - `slice`: The input slice of any type `T` that is being checked.
+//   - `index`: The index to check for validity in the slice.
+//
+// Returns:
+//   - `true` if the index is within the bounds of the slice (i.e., 0 <= index < len(slice)).
+//   - `false` otherwise, such as when the index is negative or greater than or equal to the length of the slice.
+//
+// Example:
+//
+//	// Checking if an index exists in a slice
+//	numbers := []int{1, 2, 3, 4}
+//	exists := IndexExists(numbers, 2)
+//	// exists will be true, as index 2 is valid for the slice
+//
+//	// Checking an invalid index
+//	exists = IndexExists(numbers, 5)
+//	// exists will be false, as index 5 is out of bounds for the slice
+func IndexExists[T any](slice []T, index int) bool {
+	return index >= 0 && index < len(slice)
+}
+
+// Iterate iterates over a collection (slice, array, or map) and applies a callback function on each element.
+//
+// This function takes a collection of any type (using an empty `interface{}`), which can be a slice, array, or map,
+// and a callback function. The callback function is executed for each element in the collection. For slices and arrays,
+// the callback receives the index and the corresponding value. For maps, the callback receives each key and value, with
+// the key being passed first followed by the value. For slices and arrays, the index is passed, while for maps, it is
+// passed as -1 (since maps are unordered).
+//
+// The function uses reflection to handle different types of collections and ensures that the correct value is passed
+// to the callback.
+//
+// Parameters:
+//   - `collection`: The collection (slice, array, or map) to iterate over. It can be of any type.
+//   - `callback`: A function that takes two arguments: the index (for slices and arrays, -1 for maps) and the value
+//     from the collection. The callback is executed for each element in the collection.
+//
+// Example:
+//
+//	// Iterating over a slice
+//	numbers := []int{1, 2, 3, 4}
+//	Iterate(numbers, func(index int, value interface{}) {
+//		fmt.Printf("Index: %d, Value: %v\n", index, value)
+//	})
+//	// Output:
+//	// Index: 0, Value: 1
+//	// Index: 1, Value: 2
+//	// Index: 2, Value: 3
+//	// Index: 3, Value: 4
+//
+//	// Iterating over a map
+//	colors := map[string]string{"red": "FF0000", "green": "00FF00", "blue": "0000FF"}
+//	Iterate(colors, func(index int, value interface{}) {
+//		fmt.Printf("Value: %v\n", value)
+//	})
+//	// Output:
+//	// Value: red
+//	// Value: FF0000
+//	// Value: green
+//	// Value: 00FF00
+//	// Value: blue
+//	// Value: 0000FF
+//
+// Notes:
+//   - For slices and arrays, the callback will receive the index and the value from the collection.
+//   - For maps, the callback will be executed twice per key-value pair: once with the key and once with the value,
+//     since maps are unordered and the order of key-value pairs cannot be guaranteed.
+func Iterate(collection interface{}, callback func(index int, value interface{})) {
+	v := reflect.ValueOf(collection)
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		for i := 0; i < v.Len(); i++ {
+			callback(i, v.Index(i).Interface())
+		}
+	} else if v.Kind() == reflect.Map {
+		keys := v.MapKeys()
+		for _, key := range keys {
+			callback(-1, key.Interface())
+			callback(-1, v.MapIndex(key).Interface())
+		}
+	}
+}
+
+// MapN applies a transformation function to each element of a collection (slice, array, or map) and returns
+// a new collection with the transformed values.
+//
+// This function takes a collection of any type (using an empty `interface{}`), which can be a slice, array, or map,
+// and a mapping function (`mapper`). The function applies the `mapper` function to each value in the collection,
+// transforming it. For slices and arrays, the callback is applied to each element. For maps, the callback is applied
+// to each key and value. The transformed elements (or key-value pairs) are collected into a new result, which is returned.
+//
+// The function uses reflection to handle different types of collections and constructs a new collection with the transformed values.
+//
+// Parameters:
+//   - `collection`: The collection (slice, array, or map) to iterate over and transform. It can be of any type.
+//   - `mapper`: A function that takes a value from the collection and transforms it. The function is applied to each
+//     element of the collection (or key-value pair for maps).
+//
+// Returns:
+//   - A new collection of the same type as the original collection, where each element has been transformed using the
+//     provided `mapper` function.
+//
+// Example:
+//
+//	// Mapping a slice of integers to their squares
+//	numbers := []int{1, 2, 3, 4}
+//	squared := MapN(numbers, func(value interface{}) interface{} {
+//		return value.(int) * value.(int)
+//	})
+//	// squared will be []int{1, 4, 9, 16}
+//
+//	// Mapping a map of strings to their lengths
+//	words := map[string]string{"apple": "fruit", "carrot": "vegetable"}
+//	lengths := MapN(words, func(value interface{}) interface{} {
+//		return len(value.(string))
+//	})
+//	// lengths will be a new collection containing key-value pairs, where values represent string lengths.
+//
+// Notes:
+//   - For slices and arrays, the `mapper` function is applied to each element.
+//   - For maps, the `mapper` function is applied to both the key and the value. The resulting collection will include
+//     both transformed keys and values.
+//
+// Limitations:
+//   - The function creates a new collection based on the results of the `mapper` function, so it does not modify the
+//     original collection.
+func MapN(collection interface{}, mapper func(value interface{}) interface{}) interface{} {
+	v := reflect.ValueOf(collection)
+	result := reflect.MakeSlice(reflect.SliceOf(reflect.TypeOf(mapper(v.Index(0).Interface()))), 0, 0)
+
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		for i := 0; i < v.Len(); i++ {
+			mappedValue := mapper(v.Index(i).Interface())
+			result = reflect.Append(result, reflect.ValueOf(mappedValue))
+		}
+	} else if v.Kind() == reflect.Map {
+		keys := v.MapKeys()
+		for _, key := range keys {
+			mappedKey := mapper(key.Interface())
+			mappedValue := mapper(v.MapIndex(key).Interface())
+			result = reflect.Append(result, reflect.ValueOf(mappedKey))
+			result = reflect.Append(result, reflect.ValueOf(mappedValue))
+		}
+	}
+	return result.Interface()
+}
+
+// FilterN filters a collection (slice or array) based on a predicate function and returns a new collection
+// containing only the elements that satisfy the condition specified by the predicate.
+//
+// This function takes a collection of any type (using an empty `interface{}`), which can be a slice or array,
+// and a filtering predicate function (`predicate`). The function applies the `predicate` function to each element in
+// the collection, and if the predicate returns true, the element is included in the new collection. The function only
+// supports slices and arrays as input collections.
+//
+// The function uses reflection to handle slices and arrays and constructs a new collection containing only the
+// elements that pass the filter condition.
+//
+// Parameters:
+//   - `collection`: The collection (slice or array) to filter. It can be of any type, but only slices and arrays
+//     are supported.
+//   - `predicate`: A function that takes a value from the collection and returns a boolean indicating whether the
+//     element should be included in the resulting collection. If it returns true, the element is included.
+//
+// Returns:
+//   - A new collection of the same type as the original collection, containing only the elements that satisfy the
+//     condition defined by the `predicate` function.
+//
+// Example:
+//
+//	// Filtering a slice of integers to get only even numbers
+//	numbers := []int{1, 2, 3, 4, 5, 6}
+//	evens := FilterN(numbers, func(value interface{}) bool {
+//		return value.(int)%2 == 0
+//	})
+//	// evens will be []int{2, 4, 6}
+//
+// Notes:
+//   - This function only works with slices or arrays, and will return an empty collection if the input is of another type.
+//
+// Limitations:
+//   - The function creates a new collection based on the results of the `predicate` function, so it does not modify
+//     the original collection.
+func FilterN(collection interface{}, predicate func(value interface{}) bool) interface{} {
+	v := reflect.ValueOf(collection)
+	result := reflect.MakeSlice(v.Type(), 0, 0)
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		for i := 0; i < v.Len(); i++ {
+			item := v.Index(i).Interface()
+			if predicate(item) {
+				result = reflect.Append(result, reflect.ValueOf(item))
+			}
+		}
+	}
+	return result.Interface()
+}
+
+// ReduceN reduces a collection (slice or array) to a single value by applying a reducer function
+// to each element, combining them into a single result.
+//
+// This function takes a collection of any type (using an empty `interface{}`), which can be a slice or array,
+// and a reducer function (`reducer`). The reducer function is applied to each element of the collection, along with an
+// accumulator value, and the result of the reducer is passed as the accumulator to the next iteration. This process
+// continues until all elements are processed, resulting in a single accumulated value.
+//
+// The function uses reflection to handle slices and arrays and iterates over the collection to apply the reducer function.
+//
+// Parameters:
+//   - `collection`: The collection (slice or array) to reduce. It can be of any type, but only slices and arrays
+//     are supported.
+//   - `reducer`: A function that takes two arguments: an accumulator and an element from the collection. It returns
+//     a new accumulator value after combining the accumulator and the element.
+//   - `initialValue`: The initial value of the accumulator, used as the starting point for the reduction process.
+//
+// Returns:
+//   - A single value, which is the result of reducing the entire collection using the `reducer` function. The return
+//     type is the same as the type of the `initialValue`.
+//
+// Example:
+//
+//	// Reducing a slice of integers by summing them
+//	numbers := []int{1, 2, 3, 4, 5}
+//	sum := ReduceN(numbers, func(acc interface{}, value interface{}) interface{} {
+//		return acc.(int) + value.(int)
+//	}, 0)
+//	// sum will be 15
+//
+// Notes:
+//   - This function only works with slices or arrays, and will return the initial value if the input collection is empty.
+//
+// Limitations:
+//   - The function creates a single accumulated result by repeatedly applying the `reducer` function to each element,
+//     so it does not modify the original collection.
+func ReduceN(collection interface{}, reducer func(acc interface{}, value interface{}) interface{}, initialValue interface{}) interface{} {
+	v := reflect.ValueOf(collection)
+	accumulator := initialValue
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		for i := 0; i < v.Len(); i++ {
+			accumulator = reducer(accumulator, v.Index(i).Interface())
+		}
+	}
+	return accumulator
+}
+
+// Find searches for the first element in a collection (slice or array) that satisfies a given predicate
+// function and returns it.
+//
+// This function takes a collection of any type (using an empty `interface{}`), which can be a slice or array,
+// and a predicate function (`predicate`). The predicate function is applied to each element of the collection,
+// and if it returns true for an element, that element is returned as the result. The function will return the first
+// element that satisfies the condition, and if no elements satisfy the condition, it returns `nil`.
+//
+// The function uses reflection to handle slices and arrays, iterating over the collection to check each element
+// with the provided predicate.
+//
+// Parameters:
+//   - `collection`: The collection (slice or array) to search through. It can be of any type, but only slices and arrays
+//     are supported.
+//   - `predicate`: A function that takes a value from the collection and returns a boolean indicating whether the element
+//     satisfies the condition. If it returns true, the element is returned.
+//
+// Returns:
+//   - The first element from the collection that satisfies the `predicate` function. If no elements satisfy the condition,
+//     it returns `nil`.
+//
+// Example:
+//
+//	// Finding the first even number in a slice of integers
+//	numbers := []int{1, 2, 3, 4, 5}
+//	even := Find(numbers, func(value interface{}) bool {
+//		return value.(int)%2 == 0
+//	})
+//	// even will be 2 (the first even number)
+//
+// Notes:
+//   - This function only works with slices or arrays. If the collection is of another type, it will return `nil`.
+//   - The function returns the first element that matches the predicate and stops searching after finding it.
+//
+// Limitations:
+//   - The function works only with slices and arrays. If no elements satisfy the predicate, the function will return `nil`,
+//     even if the collection is non-empty.
+func Find(collection interface{}, predicate func(value interface{}) bool) interface{} {
+	v := reflect.ValueOf(collection)
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		for i := 0; i < v.Len(); i++ {
+			item := v.Index(i).Interface()
+			if predicate(item) {
+				return item
+			}
+		}
+	}
+	return nil
+}
+
+// All checks whether all elements in a collection (slice or array) satisfy a given condition.
+//
+// This function takes a collection of any type (using an empty `interface{}`), which can be a slice or array,
+// and a condition function (`condition`). The condition function is applied to each element of the collection, and
+// the function returns `true` if all elements satisfy the condition. If any element does not satisfy the condition,
+// the function returns `false`. If the collection is empty, the function returns `true` (since the condition is trivially satisfied).
+//
+// The function uses reflection to handle slices and arrays, iterating over the collection to check each element
+// with the provided condition.
+//
+// Parameters:
+//   - `collection`: The collection (slice or array) to check. It can be of any type, but only slices and arrays
+//     are supported.
+//   - `condition`: A function that takes a value from the collection and returns a boolean indicating whether the
+//     element satisfies the condition. If it returns `false` for any element, the function immediately returns `false`.
+//
+// Returns:
+//   - `true` if all elements in the collection satisfy the condition, otherwise `false`.
+//   - If the collection is empty, the function returns `true`.
+//
+// Example:
+//
+//	// Checking if all elements in a slice of integers are positive
+//	numbers := []int{1, 2, 3, 4, 5}
+//	allPositive := All(numbers, func(value interface{}) bool {
+//		return value.(int) > 0
+//	})
+//	// allPositive will be true
+//
+// Notes:
+//   - This function only works with slices or arrays. If the collection is of another type, it will return `false`.
+//   - The function returns `false` as soon as it finds an element that does not satisfy the condition, making it more
+//     efficient for early termination.
+//
+// Limitations:
+//   - The function works only with slices and arrays. If no elements satisfy the condition, the function will return `false`,
+//     but if all elements are valid, it will return `true`. An empty collection is considered to trivially satisfy the condition.
+func All(collection interface{}, condition func(value interface{}) bool) bool {
+	v := reflect.ValueOf(collection)
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		for i := 0; i < v.Len(); i++ {
+			if !condition(v.Index(i).Interface()) {
+				return false
+			}
+		}
+		return true
+	}
+	return false
 }
