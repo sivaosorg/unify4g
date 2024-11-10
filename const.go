@@ -37,10 +37,10 @@ const (
 )
 
 const (
-	jsonNull jsonType = iota
-	jsonFalse
-	jNumber
-	jsonString
-	jsonTrue
-	jsonJson
+	jsonNull   jsonType = iota // Represents a JSON null value
+	jsonFalse                  // Represents a JSON false boolean
+	jNumber                    // Represents a JSON number
+	jsonString                 // Represents a JSON string
+	jsonTrue                   // Represents a JSON true boolean
+	jsonJson                   // Represents a JSON object or array
 )

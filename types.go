@@ -1,5 +1,16 @@
 package unify4g
 
+// OptionsConfig defines the configuration options for pretty-printing JSON data.
+// It allows customization of width, prefix, indentation, and sorting of keys.
+// These options control how the JSON output will be formatted.
+//
+// Fields:
+//   - Width: The maximum column width for single-line arrays. This prevents arrays from becoming too wide.
+//     Default is 80 characters.
+//   - Prefix: A string that will be prepended to each line of the output. Useful for adding custom prefixes
+//     or structuring the output with additional information. Default is an empty string.
+//   - Indent: The string used for indentation in nested JSON structures. Default is two spaces ("  ").
+//   - SortKeys: A flag indicating whether the keys in JSON objects should be sorted alphabetically. Default is false.
 type OptionsConfig struct {
 	// Width is an max column width for single line arrays
 	// Default is 80
@@ -26,6 +37,12 @@ type Style struct {
 
 type result int
 type byKind int
+
+// jsonType represents the different types of JSON values.
+//
+// This enumeration defines constants representing various JSON data types, including `null`, `boolean`, `number`,
+// `string`, and `JSON object or array`. These constants are used by the `getJsonType` function to identify the type
+// of a given JSON value based on its first character.
 type jsonType int
 
 type pair struct {
@@ -33,14 +50,18 @@ type pair struct {
 	valueStart, valueEnd int
 }
 
+// byKeyVal is a struct that provides a way to sort JSON key-value pairs.
+// It contains the JSON data, a buffer to hold trimmed values, and a list of pairs to be sorted.
 type byKeyVal struct {
-	sorted bool
-	json   []byte
-	buf    []byte
-	pairs  []pair
+	sorted bool   // indicates whether the pairs are sorted
+	json   []byte // original JSON data
+	buf    []byte // buffer used for processing values
+	pairs  []pair // list of key-value pairs to sort
 }
 
-// DefaultOptionsConfig is the default options for pretty formats.
+// DefaultOptionsConfig is a pre-configured default set of options for pretty-printing JSON.
+// This configuration uses a width of 80, an empty prefix, two-space indentation, and does not sort keys.
+// It is used when no custom options are provided in the PrettyOptions function.
 var DefaultOptionsConfig = &OptionsConfig{Width: 80, Prefix: "", Indent: "  ", SortKeys: false}
 
 // TerminalStyle is for terminals
