@@ -2164,3 +2164,585 @@ func All(collection interface{}, condition func(value interface{}) bool) bool {
 	}
 	return false
 }
+
+// Any checks whether any element in a collection (slice or array) satisfies a given condition.
+//
+// This function accepts a collection (slice or array) and a condition function. It returns `true` if at least one element in the collection satisfies the condition,
+// and `false` if none do. The function stops iterating as soon as a matching element is found, making it more efficient for early termination.
+//
+// Parameters:
+//   - `collection`: A slice or array of any type to check.
+//   - `condition`: A function that takes a value from the collection and returns a boolean indicating whether the element satisfies the condition.
+//
+// Returns:
+//   - `true` if any element satisfies the condition, `false` otherwise.
+//
+// Example:
+//
+//	numbers := []int{1, 2, 3, 4, 5}
+//	anyNegative := Any(numbers, func(value interface{}) bool {
+//	  return value.(int) < 0
+//	})
+//	// anyNegative will be false because no element is negative.
+func Any(collection interface{}, condition func(value interface{}) bool) bool {
+	v := reflect.ValueOf(collection)
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		for i := 0; i < v.Len(); i++ {
+			if condition(v.Index(i).Interface()) {
+				return true
+			}
+		}
+		return false
+	}
+	return false
+}
+
+// Count returns the number of elements in a collection (slice or array) that satisfy a given condition.
+//
+// This function takes a collection (slice or array) and a condition function. It iterates through the collection, applying the condition to each element.
+// It returns the total count of elements that satisfy the condition.
+//
+// Parameters:
+//   - `collection`: A slice or array of any type to check.
+//   - `condition`: A function that checks if an element satisfies a condition. The function returns `true` for elements that match the condition, and `false` otherwise.
+//
+// Returns:
+//   - The count of elements in the collection that satisfy the condition.
+//
+// Example:
+//
+//	numbers := []int{1, 2, 3, 4, 5}
+//	countNegative := Count(numbers, func(value interface{}) bool {
+//	  return value.(int) < 0
+//	})
+//	// countNegative will be 0, since no element is negative.
+func Count(collection interface{}, condition func(value interface{}) bool) int {
+	v := reflect.ValueOf(collection)
+	count := 0
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		for i := 0; i < v.Len(); i++ {
+			if condition(v.Index(i).Interface()) {
+				count++
+			}
+		}
+	}
+	return count
+}
+
+// RemoveN returns a new collection (slice or array) where all elements that satisfy a given condition are removed.
+//
+// This function takes a collection (slice or array) and a condition function. It iterates through the collection, and for each element that does not satisfy the condition,
+// it is added to a new result collection. The function returns a new collection that contains only the elements that do not match the condition.
+//
+// Parameters:
+//   - `collection`: A slice or array of any type to process.
+//   - `condition`: A function that checks if an element satisfies a condition. If the element matches the condition, it is removed from the result collection.
+//
+// Returns:
+//   - A new collection (slice or array) with elements that do not satisfy the condition.
+//
+// Example:
+//
+//	numbers := []int{1, 2, 3, 4, 5}
+//	result := RemoveN(numbers, func(value interface{}) bool {
+//	  return value.(int) % 2 == 0 // Removes even numbers
+//	})
+//	// result will be []int{1, 3, 5}
+func RemoveN(collection interface{}, condition func(value interface{}) bool) interface{} {
+	v := reflect.ValueOf(collection)
+	result := reflect.MakeSlice(v.Type(), 0, 0)
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		for i := 0; i < v.Len(); i++ {
+			item := v.Index(i).Interface()
+			if !condition(item) {
+				result = reflect.Append(result, reflect.ValueOf(item))
+			}
+		}
+	}
+	return result.Interface()
+}
+
+// SortN sorts a collection (slice or array) in-place according to a custom comparison function.
+//
+// This function takes a collection (slice or array) and a `less` function. The `less` function should return `true` if the element at index `i` should come before the element at index `j`.
+// The collection is sorted in-place, meaning the original collection is modified.
+//
+// Parameters:
+//   - `collection`: A slice or array of any type to sort.
+//   - `less`: A comparison function that takes two indices `i` and `j` and returns `true` if the element at index `i` should come before the element at index `j`.
+//
+// Returns:
+//   - The collection is sorted in place. No value is returned.
+//
+// Example:
+//
+//	numbers := []int{5, 3, 1, 4, 2}
+//	SortN(numbers, func(i, j int) bool {
+//	  return numbers[i] < numbers[j] // Sort in ascending order
+//	})
+//	// numbers will be sorted to []int{1, 2, 3, 4, 5}
+func SortN(collection interface{}, less func(i, j int) bool) {
+	v := reflect.ValueOf(collection)
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		sort.SliceStable(collection, func(i, j int) bool {
+			return less(i, j)
+		})
+	}
+}
+
+// Reverse_N reverses the order of elements in a collection (slice or array) in-place.
+//
+// This function takes a collection (slice or array) and reverses the elements by swapping elements at corresponding positions (i and length-i-1) until the middle of the collection is reached.
+// The collection is modified in place, meaning no new collection is created.
+//
+// Parameters:
+//   - `collection`: A slice or array of any type to reverse.
+//
+// Returns:
+//   - The collection is reversed in place. No value is returned.
+//
+// Example:
+//
+//	numbers := []int{1, 2, 3, 4, 5}
+//	Reverse_N(numbers)
+//	// numbers will be reversed to []int{5, 4, 3, 2, 1}
+func Reverse_N(collection interface{}) {
+	v := reflect.ValueOf(collection)
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		length := v.Len()
+		for i := 0; i < length/2; i++ {
+			j := length - i - 1
+			vi := v.Index(i).Interface()
+			vj := v.Index(j).Interface()
+			v.Index(i).Set(reflect.ValueOf(vj))
+			v.Index(j).Set(reflect.ValueOf(vi))
+		}
+	}
+}
+
+// UniqueN returns a new collection (slice or array) containing only unique elements from the original collection.
+//
+// This function takes a collection (slice or array) and removes duplicate elements, returning a new collection with only the unique elements.
+// The function uses a map to track elements that have already been encountered, ensuring that only the first occurrence of each element is included in the result.
+//
+// Parameters:
+//   - `collection`: A slice or array of any type from which duplicates should be removed.
+//
+// Returns:
+//   - A new collection (slice or array) containing only the unique elements from the original collection.
+//
+// Example:
+//
+//	numbers := []int{1, 2, 2, 3, 4, 4, 5}
+//	result := UniqueN(numbers)
+//	// result will be []int{1, 2, 3, 4, 5}
+func UniqueN(collection interface{}) interface{} {
+	v := reflect.ValueOf(collection)
+	uniqueMap := make(map[interface{}]struct{})
+	result := reflect.MakeSlice(v.Type(), 0, 0)
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		for i := 0; i < v.Len(); i++ {
+			item := v.Index(i).Interface()
+			if _, found := uniqueMap[item]; !found {
+				uniqueMap[item] = struct{}{}
+				result = reflect.Append(result, reflect.ValueOf(item))
+			}
+		}
+	}
+	return result.Interface()
+}
+
+// Contains_N checks if a given element exists within a collection (slice or array).
+//
+// This function takes a collection (slice or array) and an element, then iterates through the collection to see if any element matches the provided element.
+// It uses `reflect.DeepEqual` to compare elements, which ensures that even complex types (like structs or slices) are compared correctly.
+//
+// Parameters:
+//   - `collection`: A slice or array of any type to search within.
+//   - `element`: The element to search for within the collection.
+//
+// Returns:
+//   - `true` if the element is found within the collection, `false` otherwise.
+//
+// Example:
+//
+//	numbers := []int{1, 2, 3, 4, 5}
+//	containsThree := Contains_N(numbers, 3)
+//	// containsThree will be true because 3 is in the slice.
+func Contains_N(collection interface{}, element interface{}) bool {
+	v := reflect.ValueOf(collection)
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		for i := 0; i < v.Len(); i++ {
+			if reflect.DeepEqual(v.Index(i).Interface(), element) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// Difference_N returns a new collection (slice or array) containing elements from the first collection
+// that are not present in the second collection.
+//
+// This function takes two collections (slices or arrays) and compares the elements of the first collection
+// against the elements of the second collection. It returns a new collection with elements that appear in the
+// first collection but are absent in the second collection. The function uses `Contains_N` to check for membership
+// of each element of the first collection in the second collection.
+//
+// Parameters:
+//   - `collection1`: The first slice or array of any type to compare.
+//   - `collection2`: The second slice or array of any type to compare against.
+//
+// Returns:
+//   - A new collection (slice or array) containing the elements from `collection1` that are not in `collection2`.
+//
+// Example:
+//
+//	numbers1 := []int{1, 2, 3, 4, 5}
+//	numbers2 := []int{3, 4, 6}
+//	result := Difference_N(numbers1, numbers2)
+//	// result will be []int{1, 2, 5}, as these are the elements in numbers1 that are not in numbers2.
+func Difference_N(collection1 interface{}, collection2 interface{}) interface{} {
+	v1 := reflect.ValueOf(collection1)
+	result := reflect.MakeSlice(v1.Type(), 0, 0)
+	if v1.Kind() == reflect.Slice || v1.Kind() == reflect.Array {
+		for i := 0; i < v1.Len(); i++ {
+			item := v1.Index(i).Interface()
+			if !Contains_N(collection2, item) {
+				result = reflect.Append(result, v1.Index(i))
+			}
+		}
+	}
+	return result.Interface()
+}
+
+// Intersection returns a new collection (slice or array) containing elements that are present in both collections.
+//
+// This function takes two collections (slices or arrays) and compares the elements of both collections.
+// It returns a new collection with elements that appear in both the first and the second collection.
+// The function uses `Contains_N` to check if an element from the first collection is also present in the second collection.
+//
+// Parameters:
+//   - `collection1`: The first slice or array of any type to compare.
+//   - `collection2`: The second slice or array of any type to compare against.
+//
+// Returns:
+//   - A new collection (slice or array) containing the elements that are found in both `collection1` and `collection2`.
+//
+// Example:
+//
+//	numbers1 := []int{1, 2, 3, 4, 5}
+//	numbers2 := []int{3, 4, 6}
+//	result := Intersection(numbers1, numbers2)
+//	// result will be []int{3, 4}, as these are the elements common to both numbers1 and numbers2.
+func Intersection(collection1 interface{}, collection2 interface{}) interface{} {
+	v1 := reflect.ValueOf(collection1)
+	result := reflect.MakeSlice(v1.Type(), 0, 0)
+	if v1.Kind() == reflect.Slice || v1.Kind() == reflect.Array {
+		for i := 0; i < v1.Len(); i++ {
+			item := v1.Index(i).Interface()
+			if Contains_N(collection2, item) {
+				result = reflect.Append(result, v1.Index(i))
+			}
+		}
+	}
+	return result.Interface()
+}
+
+// Slice returns a new collection (slice or array) that is a subrange of the input collection,
+// starting from the specified `start` index and ending at the `end` index (exclusive).
+//
+// This function creates a sub-slice or sub-array from the given collection by copying elements from the
+// original collection starting at the `start` index and ending just before the `end` index. If `start` or `end`
+// is out of bounds, the function adjusts them to ensure they stay within the valid range for the collection.
+// The returned collection will contain the elements between the adjusted `start` and `end` indices.
+//
+// Parameters:
+//   - `collection`: A slice or array of any type to extract a subrange from.
+//   - `start`: The starting index (inclusive) for the sub-slice or sub-array.
+//   - `end`: The ending index (exclusive) for the sub-slice or sub-array.
+//
+// Returns:
+//   - A new collection (slice or array) containing the elements from `start` to `end` (exclusive).
+//
+// Example:
+//
+//	numbers := []int{1, 2, 3, 4, 5, 6, 7}
+//	result := Slice(numbers, 2, 5)
+//	// result will be []int{3, 4, 5}, as it extracts elements from index 2 to 4 (inclusive of 2, exclusive of 5).
+//
+// Notes:
+//   - If `start` is less than 0, it is adjusted to 0 (beginning of the collection).
+//   - If `end` is greater than the length of the collection, it is adjusted to the collection's length.
+func Slice(collection interface{}, start, end int) interface{} {
+	v := reflect.ValueOf(collection)
+	result := reflect.MakeSlice(v.Type(), 0, 0)
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		if start < 0 {
+			start = 0
+		}
+		if end > v.Len() {
+			end = v.Len()
+		}
+		for i := start; i < end; i++ {
+			result = reflect.Append(result, v.Index(i))
+		}
+	}
+	return result.Interface()
+}
+
+// SliceWithIndices returns a new collection (slice or array) containing elements from the input collection
+// specified by the provided indices.
+//
+// This function creates a new collection by selecting elements from the original collection based on a list
+// of indices provided in the `indices` slice. It ensures that only valid indices (within the bounds of the
+// collection) are used to build the result collection.
+//
+// Parameters:
+//   - `collection`: A slice or array of any type to extract elements from.
+//   - `indices`: A slice of integers representing the indices of elements to include in the result collection.
+//     Only valid indices (within the bounds of the collection) are considered.
+//
+// Returns:
+//   - A new collection (slice or array) containing the elements from `collection` at the specified `indices`.
+//
+// Example:
+//
+//	numbers := []int{1, 2, 3, 4, 5, 6, 7}
+//	indices := []int{1, 3, 5}
+//	result := SliceWithIndices(numbers, indices)
+//	// result will be []int{2, 4, 6}, as these are the elements at indices 1, 3, and 5 of the original slice.
+//
+// Notes:
+//   - If an index in `indices` is out of bounds (less than 0 or greater than or equal to the collection's length),
+//     it is ignored.
+func SliceWithIndices(collection interface{}, indices []int) interface{} {
+	v := reflect.ValueOf(collection)
+	result := reflect.MakeSlice(v.Type(), 0, 0)
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		for _, index := range indices {
+			if index >= 0 && index < v.Len() {
+				result = reflect.Append(result, v.Index(index))
+			}
+		}
+	}
+	return result.Interface()
+}
+
+// Partition splits a collection (slice or array) into two parts based on a condition function.
+//
+// This function iterates through the elements of the input collection, applying the provided `condition` function to each element.
+// It creates two separate collections: one containing elements for which the condition returns `true`, and the other containing elements
+// for which the condition returns `false`. The function returns both collections.
+//
+// Parameters:
+//   - `collection`: A slice or array of any type to partition.
+//   - `condition`: A function that checks whether an element should go into the "true" partition or the "false" partition.
+//     It returns `true` if the element should go into the "true" partition, and `false` otherwise.
+//
+// Returns:
+//   - A tuple containing two new collections:
+//   - The first collection contains elements for which the condition is `true`.
+//   - The second collection contains elements for which the condition is `false`.
+//
+// Example:
+//
+//	numbers := []int{1, 2, 3, 4, 5, 6}
+//	truePartition, falsePartition := Partition(numbers, func(value interface{}) bool {
+//		return value.(int) % 2 == 0 // Partition into even and odd numbers
+//	})
+//	// truePartition will be []int{2, 4, 6} (even numbers)
+//	// falsePartition will be []int{1, 3, 5} (odd numbers)
+//
+// Notes:
+//   - The condition function is applied to each element in the collection.
+//   - The returned collections are of the same type as the input collection (slice or array).
+func Partition(collection interface{}, condition func(value interface{}) bool) (interface{}, interface{}) {
+	v := reflect.ValueOf(collection)
+	truePartition := reflect.MakeSlice(v.Type(), 0, 0)
+	falsePartition := reflect.MakeSlice(v.Type(), 0, 0)
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		for i := 0; i < v.Len(); i++ {
+			item := v.Index(i).Interface()
+			if condition(item) {
+				truePartition = reflect.Append(truePartition, reflect.ValueOf(item))
+			} else {
+				falsePartition = reflect.Append(falsePartition, reflect.ValueOf(item))
+			}
+		}
+	}
+	return truePartition.Interface(), falsePartition.Interface()
+}
+
+// Zip combines multiple collections (slices or arrays) element-wise into a new collection of tuples.
+//
+// This function takes multiple collections (slices or arrays) as arguments and combines their elements
+// into tuples. Each tuple consists of elements from the same index of each collection. The function returns
+// a new collection (a slice of tuples), where each tuple contains the elements from the input collections
+// at the same position. The length of the resulting collection is determined by the shortest input collection.
+//
+// Parameters:
+//   - `collections`: A variadic list of slices or arrays of any type to combine. All collections must be
+//     of the same length or shorter, and they will be combined element-wise until the shortest collection's length is reached.
+//
+// Returns:
+//   - A slice of tuples (slices), where each tuple contains the elements from the input collections at the same index.
+//     The length of the returned slice is the same as the shortest input collection.
+//
+// Example:
+//
+//	numbers := []int{1, 2, 3}
+//	strings := []string{"a", "b", "c"}
+//	result := Zip(numbers, strings)
+//	// result will be [][]interface{}{{1, "a"}, {2, "b"}, {3, "c"}}
+//
+// Notes:
+//   - If any of the input collections is not a slice or array, the function returns `nil`.
+//   - If the collections have different lengths, the function will combine elements up to the length of the shortest collection.
+func Zip(collections ...interface{}) []interface{} {
+	minLength := -1
+	for _, collection := range collections {
+		v := reflect.ValueOf(collection)
+		if v.Kind() != reflect.Slice && v.Kind() != reflect.Array {
+			return nil
+		}
+		if minLength == -1 || v.Len() < minLength {
+			minLength = v.Len()
+		}
+	}
+	result := make([]interface{}, minLength)
+	for i := 0; i < minLength; i++ {
+		tuple := make([]interface{}, len(collections))
+		for j, collection := range collections {
+			v := reflect.ValueOf(collection)
+			tuple[j] = v.Index(i).Interface()
+		}
+		result[i] = tuple
+	}
+	return result
+}
+
+// ReduceRight performs a right-to-left reduction on a collection (slice or array) using a reducer function.
+//
+// This function takes a collection (slice or array), a reducer function, and an initial accumulator value.
+// It iterates through the collection from right to left, applying the reducer function to each element and
+// accumulating the result. The reducer function is called with two arguments: the current accumulator value
+// and the current element in the collection. The final result is returned after processing all elements.
+//
+// Parameters:
+//   - `collection`: A slice or array of any type to reduce.
+//   - `reducer`: A function that takes the current accumulator value and the current element as input, and returns
+//     the updated accumulator value. This function is applied from right to left on the collection.
+//   - `initialValue`: The initial value for the accumulator, which will be passed as the first argument to the
+//     reducer function during the first iteration.
+//
+// Returns:
+//   - The final accumulated value after reducing the collection from right to left.
+//
+// Example:
+//
+//	numbers := []int{1, 2, 3, 4}
+//	result := ReduceRight(numbers, func(acc, value interface{}) interface{} {
+//		return acc.(int) + value.(int) // Sum of elements from right to left
+//	}, 0)
+//	// result will be 10, as the reduction is (0 + 4) + (4 + 3) + (7 + 2) + (9 + 1) = 10
+//
+// Notes:
+//   - The reduction starts from the rightmost element of the collection and proceeds towards the left.
+//   - The function uses reflection to support collections of any type.
+func ReduceRight(collection interface{}, reducer func(acc, value interface{}) interface{}, initialValue interface{}) interface{} {
+	v := reflect.ValueOf(collection)
+	accumulator := initialValue
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		for i := v.Len() - 1; i >= 0; i-- {
+			accumulator = reducer(accumulator, v.Index(i).Interface())
+		}
+	}
+	return accumulator
+}
+
+// RotateLeft rotates the elements of a collection (slice or array) to the left by a specified number of positions.
+//
+// This function takes a collection (slice or array) and rotates its elements to the left by the given number
+// of positions. Elements at the beginning of the collection are moved to the end. The rotation is done in-place
+// (modifying the collection), and if the number of positions is negative, the rotation will be adjusted accordingly.
+//
+// Parameters:
+//   - `collection`: A slice or array of any type to rotate.
+//   - `positions`: The number of positions to rotate the collection to the left. A positive number rotates
+//     elements left, while a negative number rotates right. The positions are normalized to be within the valid range
+//     of the collection's length.
+//
+// Returns:
+//   - A new collection (slice or array) where the elements have been rotated left by the specified number of positions.
+//
+// Example:
+//
+//	numbers := []int{1, 2, 3, 4, 5}
+//	result := RotateLeft(numbers, 2)
+//	// result will be []int{3, 4, 5, 1, 2}, as the collection is rotated left by 2 positions.
+//
+// Notes:
+//   - If the number of positions is larger than the length of the collection, it is normalized using modulo
+//     to ensure it rotates only the necessary number of positions.
+//   - If the collection is not a slice or array, the original collection is returned unchanged.
+func RotateLeft(collection interface{}, positions int) interface{} {
+	v := reflect.ValueOf(collection)
+	length := v.Len()
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		if positions < 0 {
+			positions = (positions%length + length) % length
+		} else {
+			positions = positions % length
+		}
+		result := reflect.MakeSlice(v.Type(), length, length)
+		for i := 0; i < length; i++ {
+			result.Index((i - positions + length) % length).Set(v.Index(i))
+		}
+		return result.Interface()
+	}
+	return collection
+}
+
+// RotateRight rotates the elements of a collection (slice or array) to the right by a specified number of positions.
+//
+// This function takes a collection (slice or array) and rotates its elements to the right by the given number
+// of positions. Elements at the end of the collection are moved to the beginning. The rotation is done in-place
+// (modifying the collection), and if the number of positions is negative, the rotation will be adjusted accordingly.
+//
+// Parameters:
+//   - `collection`: A slice or array of any type to rotate.
+//   - `positions`: The number of positions to rotate the collection to the right. A positive number rotates
+//     elements right, while a negative number rotates left. The positions are normalized to be within the valid range
+//     of the collection's length.
+//
+// Returns:
+//   - A new collection (slice or array) where the elements have been rotated right by the specified number of positions.
+//
+// Example:
+//
+//	numbers := []int{1, 2, 3, 4, 5}
+//	result := RotateRight(numbers, 2)
+//	// result will be []int{4, 5, 1, 2, 3}, as the collection is rotated right by 2 positions.
+//
+// Notes:
+//   - If the number of positions is larger than the length of the collection, it is normalized using modulo
+//     to ensure it rotates only the necessary number of positions.
+//   - If the collection is not a slice or array, the original collection is returned unchanged.
+func RotateRight(collection interface{}, positions int) interface{} {
+	v := reflect.ValueOf(collection)
+	length := v.Len()
+	if v.Kind() == reflect.Slice || v.Kind() == reflect.Array {
+		if positions < 0 {
+			positions = (-positions%length + length) % length
+		} else {
+			positions = positions % length
+		}
+		result := reflect.MakeSlice(v.Type(), length, length)
+		for i := 0; i < length; i++ {
+			result.Index((i + positions) % length).Set(v.Index(i))
+		}
+		return result.Interface()
+	}
+	return collection
+}
