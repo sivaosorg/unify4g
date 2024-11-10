@@ -1810,7 +1810,7 @@ func Map2Table(data map[string]interface{}) string {
 		}
 	}
 	for key, value := range data {
-		fmt.Fprintf(&builder, "%-*s   %s\n", maxKeyLength, key, Json(value))
+		fmt.Fprintf(&builder, "%-*s   %s\n", maxKeyLength, key, JsonN(value))
 	}
 	return builder.String()
 }
