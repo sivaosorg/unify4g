@@ -381,6 +381,57 @@ func CleanSpaces(s string) string {
 	return strings.TrimSpace(TrimWhitespace(s))
 }
 
+// Trim removes leading and trailing whitespace characters from a string.
+// The function iteratively checks and removes spaces (or any character less than or equal to a space)
+// from both the left (beginning) and right (end) of the string.
+//
+// Parameters:
+//   - s: A string that may contain leading and trailing whitespace characters that need to be removed.
+//
+// Returns:
+//   - A new string with leading and trailing whitespace removed. The function does not modify the original string,
+//     as strings in Go are immutable.
+//
+// Example Usage:
+//
+//	str := "  hello world  "
+//	trimmed := Trim(str)
+//	// trimmed: "hello world" (leading and trailing spaces removed)
+//
+//	str = "\n\n   Trim me   \t\n"
+//	trimmed = Trim(str)
+//	// trimmed: "Trim me" (leading and trailing spaces and newline characters removed)
+//
+// Details:
+//
+//   - The function works by iteratively removing any characters less than or equal to a space (ASCII 32) from the
+//     left side of the string until no such characters remain. It then performs the same operation on the right side of
+//     the string until no whitespace characters are left.
+//
+//   - The function uses a `goto` mechanism to handle the removal in a loop, which ensures all leading and trailing
+//     spaces (or any whitespace characters) are removed without additional checks for length or condition evaluation
+//     in every iteration.
+//
+//   - The trimmed result string will not contain leading or trailing whitespace characters after the function completes.
+//
+//   - The function returns an unchanged string if no whitespace is present.
+func Trim(s string) string {
+	if IsEmpty(s) {
+		return s
+	}
+left:
+	if len(s) > 0 && s[0] <= ' ' {
+		s = s[1:]
+		goto left
+	}
+right:
+	if len(s) > 0 && s[len(s)-1] <= ' ' {
+		s = s[:len(s)-1]
+		goto right
+	}
+	return s
+}
+
 // Quote formats a string argument for safe output, escaping any special characters
 // and enclosing the result in double quotes.
 //
